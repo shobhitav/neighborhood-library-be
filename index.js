@@ -1,8 +1,5 @@
-const express = require('express');
-const server = express();
-require('./services/passport.js');
-require('./routes/authRoutes.js')(server);
-
+require('dotenv').config();
+const server = require('./server.js');
 
 const port = process.env.PORT || 5000;
 

@@ -19,10 +19,13 @@
   },
   "homepage": "https://github.com/Lambda-School-Labs/neighborhood-library-be#readme",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "helmet": "^3.21.2",
     "nodemon": "^1.19.4",
     "passport": "^0.4.0",
     "passport-facebook": "^3.0.0",
-    "passport-google-oauth20": "^2.0.0"
+    "passport-google-oauth20": "^2.0.0",
+    "pg": "^7.12.1"
   }
 }
