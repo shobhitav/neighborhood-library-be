@@ -13,7 +13,7 @@ require('./services/passport.js');
 server.use(helmet());
 server.use(express.json());
 
-// server.use('/api/user', userRouter);
+server.use('/api/users', userRouter);
 server.use('/api/google', authRouter);
 // server.use('/api/books', bookRouter);
 

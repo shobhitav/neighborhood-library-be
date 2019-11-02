@@ -25,6 +25,7 @@ passport.use(new GoogleStrategy({
         if (err) {
             res.status(500).json(err.message);
         }
+        // sets new auth cookie to user account?
         else if (result) {
             res.status(200).json(result.rows);
         } else {
@@ -32,4 +33,4 @@ passport.use(new GoogleStrategy({
             )
         }
     })
-}))
+}));
