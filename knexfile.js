@@ -5,10 +5,10 @@ module.exports = {
   development: {
     client: 'pg',
     connection: {
-      host : 'localhost',
-      database: 'my_vivlio',
-      user:     'shobhita',
-      password: 'password'
+      host: process.env.PGHOST,
+      user: process.env.PGUSER,
+      password: process.env.PGPASS,
+      database: process.env.PGDB
     },
     pool: {
       min: 2,
