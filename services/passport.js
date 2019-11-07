@@ -1,15 +1,55 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
 const keys = require('../config/keys.js');
+const db = require('../database/dbConfig.js');
+
+
+
+passport.serializeUser((user, done) => {
+    console.log(user)
+    done(null, user[0].user_credential);
+});
+
+passport.deserializeUser( async (id, done) => {
+    
+        
+        const User = await db('users').where({user_credential: id})
+        
+        if (User) {
+            done(null, User)
+        }
+    
+        
+
+})
 
 passport.use(new GoogleStrategy({
     clientID: keys.googleClientID,
     clientSecret: keys.googleClientSecret,
-    callbackURL: '/auth/google/callback'
-}, (accessToken, refreshToken, profile, cb) => {
+    callbackURL: '/auth/google/callback',
+    proxy: true
+}, async (accessToken, refreshToken, profile, done) => {
     console.log(profile);
-    //add code here to take the googleId out of profile, and first filter through the database to see if there is a profile
-    //if one exists, move on, if not, create one tagged to the googleId, and then move on.  This whole process will handle
-    //reg and auth in one step.  It is how people do it.  I did in another application with MongoDb, and can show you if need
-    //be as an example of the logic
+dd
+   
+    let user = await db('users').where({user_credential: profile.id})
+    
+    if (user.length > 0) {
+        console.log('user:',user);
+       return done(null, user);
+    }
+     
+      let newUser = await addNewUser(profile)
+      
+      done(null, newUser);
+      
+    
 }))
+
+async function addNewUser(p) {
+        console.log('asdfasfasf', p.emails[0].value)
+       let newUser =  await db('users').insert({user_name: p.emails[0].value, user_email: p.emails[0].value, user_identity: 'google', user_credential: p.id});
+        console.log(newUser)      
+       return newUser
+
+    }

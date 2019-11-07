@@ -1,14 +1,15 @@
 // Update with your config settings.
 require('dotenv').config();
+const keys = require('./config/keys.js');
 
 module.exports = {
   development: {
     client: 'pg',
     connection: {
       host : 'localhost',
-      database: 'my_vivlio',
-      user:     'shobhita',
-      password: 'password'
+      database: 'postgres',
+      user:     'postgres',
+      password: keys.password
     },
     pool: {
       min: 2,

@@ -5,9 +5,15 @@ module.exports = (server) => {
         scope: ['profile', 'email']
     }));
 
-    server.get('/auth/google/callback', passport.authenticate('google', {
-        failureRedirect: '/login'
-    }) /*, (req, res) => {
-        res.redirect('/');
-        }); this commented out code will redirect to the not yet created landing page route upon auth*/ ) 
+    
+        server.get('/auth/google/callback', passport.authenticate('google'));
+
+        server.get('/api/logout', (req, res) => {
+            req.logout();
+            res.send('<h1>You are logged out</h1>');
+        })
+        
+        server.get('/api/current_user', (req, res) => {
+            res.send(req.user);
+        }) 
 };
