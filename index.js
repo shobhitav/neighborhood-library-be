@@ -1,5 +1,6 @@
 require('dotenv').config();
 const server = require('./server.js');
+
 require('./services/passport.js');
 require('./routes/authRoutes.js')(server);
 
