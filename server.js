@@ -18,9 +18,6 @@ server.use(
       keys: [process.env.cookieKey],
   })
 );
-
-
-
 server.use(passport.initialize());
 server.use(passport.session());
 
@@ -28,7 +25,6 @@ server.use('/auth', authRouter);
 // server.use('/api/users', usersRouter);
 server.use('/api/lender-collection', lenderRouter);
 server.use('/api/borrower-wishlist', borrowerRouter);
-
 
 server.get('/', (req, res) => {
     res.status(200).json("Welcome to the muoVivlio, your peer-to-peer neighboor library.");
