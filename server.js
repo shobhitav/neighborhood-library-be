@@ -1,24 +1,37 @@
 const express = require('express');
+const cors = require('cors');
 const helmet = require('helmet');
-
-// const userRouter = require('./router/userRoutes.js');
-const authRouter = require('./routes/authRoutes.js');
-// const bookRouter = require('./routes/bookRoutes.js');
-
 const server = express();
+const cookieSession = require('cookie-session');
+const passport = require('passport');
 
-// required to run Passport OAuth
-require('./services/passport.js');
+const lenderRouter= require('./lender/lenderCollection-router.js');
+const borrowerRouter= require('./borrower/borrowerWishlist-router.js');
+const authRouter = require('./routes/authRoutes.js');
 
 server.use(helmet());
+server.use(cors());
 server.use(express.json());
+server.use(
+  cookieSession({
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      keys: [process.env.cookieKey],
+  })
+);
 
-server.use('/api/users', userRouter);
-server.use('/api/google', authRouter);
-// server.use('/api/books', bookRouter);
+
+
+server.use(passport.initialize());
+server.use(passport.session());
+
+server.use('/auth', authRouter);
+// server.use('/api/users', usersRouter);
+server.use('/api/lender-collection', lenderRouter);
+server.use('/api/borrower-wishlist', borrowerRouter);
+
 
 server.get('/', (req, res) => {
-  res.send("Welcome to the muoVivlio, your peer-to-peer neighboor library.");
-});
-
+    res.status(200).json("Welcome to the muoVivlio, your peer-to-peer neighboor library.");
+  });
+  
 module.exports = server;

@@ -1,36 +1,49 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
 
-const { Pool } = require('pg');
-
-const pool = new Pool({
-  user: process.env.PGUSER,
-  password: process.env.PGPASSWORD,
-  host: process.env.PGHOST,
-  database: process.env.PGDB,
-  port: process.env.PGPORT
+//takes the user from the done call in the passport.use callback, and sets the session to rember them  by the second parameter in done
+//passport stores the user[0].user_credential on req.passport
+passport.serializeUser((user, done) => {
+    console.log(user)
+    done(null, user[0].user_credential);
 });
 
-passport.use(new GoogleStrategy({
-    clientID: process.env.googleClientID,
-    clientSecret: process.env.googleClientSecret,
-    callbackURL: '/auth/google/callback'
-}, (accessToken, refreshToken, profile, cb) => {
-    console.log(profile);
-    //add code here to take the googleId out of profile, and first filter through the database to see if there is a profile
-    //if one exists, move on, if not, create one tagged to the googleId, and then move on.  This whole process will handle
-    //reg and auth in one step.  It is how people do it.  I did in another application with MongoDb, and can show you if need
-    //be as an example of the logic
-    pool.query('SELECT * FROM users WHERE googleId = $1', [profile.id], (err, result) => {
-        if (err) {
-            res.status(500).json(err.message);
-        }
-        // sets new auth cookie to user account?
-        else if (result) {
-            res.status(200).json(result.rows);
-        } else {
-            pool.query('INSERT INTO users '//we need to pull profile.id and everythilng else that shobhita tells us to put in the user schema here from google
-            )
-        }
-    })
+//takes the user creds from serializeuser and makes a request to our database and calls done with the user info.  Passport then
+//stores the user info on req.user, and we now have access to the user profile
+passport.deserializeUser( async (id, done) => {  
+    const User = await db('users').where({user_credential: id})
+    
+    if (User) {
+        done(null, User)
+    }
+});
+
+//the following implements googleStrategy for auth, and in the callback holds the logic to register new users, 
+//and login users if they are already registered
+passport.use(
+    new GoogleStrategy({
+        clientID: process.env.googleClientID,
+        clientSecret: process.env.googleClientSecret,
+        callbackURL: '/auth/google/callback',
+        proxy: true
+    }, async (accessToken, refreshToken, profile, done) => {
+        console.log(profile);
+   
+        let user = await db('users').where({user_credential: profile.id})
+    
+        if (user.length > 0) {
+            console.log('user:',user);
+            return done(null, user);
+        };
+     
+        let newUser = await addNewUser(profile)
+      
+        done(null, newUser);
 }));
+
+async function addNewUser(p) {
+    console.log('email', p.emails[0].value)
+    let newUser =  await db('users').insert({user_name: p.emails[0].value, user_email: p.emails[0].value, user_identity: 'google', user_credential: p.id});
+    console.log(newUser)      
+    return newUser
+}

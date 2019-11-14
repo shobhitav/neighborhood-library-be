@@ -3,14 +3,23 @@ const passport = require('passport');
 
 const router = express.Router();
 
-router.get('/', passport.authenticate('google', {
+// sends user to Google auth sign in
+router.get('/google', passport.authenticate('google', {
     scope: ['profile', 'email']
 }));
 
-router.get('/callback', passport.authenticate('google', {
-    failureRedirect: '/login'
-}) /*, (req, res) => {
-        res.redirect('/');
-        }); this commented out code will redirect to the not yet created landing page route upon auth*/ ) 
+// gets user info back after log in
+router.get('/google/callback', passport.authenticate('google'));
+
+// logs user out and removes req.user property and session
+router.get('/logout', (req, res) => {
+    req.logout();
+    res.send('<h1>You are logged out</h1>');
+});
+
+// returns current user info
+router.get('/current_user', (req, res) => {
+    res.send(req.user);
+});
 
 module.exports = router;
