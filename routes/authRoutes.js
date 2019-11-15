@@ -9,13 +9,15 @@ router.get('/google', passport.authenticate('google', {
 }));
 
 // gets user info back after log in
-router.get('/google/callback', passport.authenticate('google'));
+router.get('/google/callback', passport.authenticate('google'),
+    (req, res) => res.redirect('/dashboard')
+);
 
 // logs user out and removes req.user property and session
-router.get('/logout', (req, res) => {
+server.get('/logout', (req, res) => {
     req.logout();
-    res.send('<h1>You are logged out</h1>');
-});
+    res.redirect('/');
+})
 
 // returns current user info
 router.get('/current_user', (req, res) => {
