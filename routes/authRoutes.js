@@ -14,7 +14,7 @@ router.get('/google/callback', passport.authenticate('google'),
 );
 
 // logs user out and removes req.user property and session
-server.get('/logout', (req, res) => {
+router.get('/logout', (req, res) => {
     req.logout();
     res.redirect('/');
 })
