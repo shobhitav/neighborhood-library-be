@@ -8,7 +8,8 @@ module.exports = {
       host: process.env.PGHOST,
       user: process.env.PGUSER,
       password: process.env.PGPASS,
-      database: process.env.PGDB
+      database: process.env.PGDB,
+      port: process.env.PGPORT
     },
     pool: {
       min: 2,
