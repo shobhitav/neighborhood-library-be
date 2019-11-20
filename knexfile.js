@@ -1,15 +1,17 @@
 // Update with your config settings.
 require('dotenv').config();
 
+//change || statements and port before commit
+
 module.exports = {
   development: {
     client: 'pg',
     connection: {
-      host: process.env.PGHOST,
-      user: process.env.PGUSER,
+      host: process.env.PGHOST || 'localhost',
+      user: process.env.PGUSER || 'postgres',
       password: process.env.PGPASS,
-      database: process.env.PGDB,
-      port: process.env.PGPORT
+      database: process.env.PGDB || 'postgres',
+      //port: process.env.PGPORT
     },
     pool: {
       min: 2,
