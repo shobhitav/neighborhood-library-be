@@ -22,7 +22,7 @@ router.post('/', async (req, res) => {
 
   try {
     const wishlist = await borrowerWishlist.addBook(borrowerBookData);
-    res.status(201).json(wishlist);
+    res.status(201).json([wishlist]);
   } catch (err) {
     res.status(500).json({ message: 'Failed to add book to wishlist:' + err });
   }
