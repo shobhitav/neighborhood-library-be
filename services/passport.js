@@ -17,6 +17,7 @@ passport.deserializeUser( async (id, done) => {
     if (User) {
         done(null, User)
     }
+    
 });
 
 //the following implements googleStrategy for auth, and in the callback holds the logic to register new users, 
@@ -44,7 +45,7 @@ passport.use(
 
 async function addNewUser(p) {
     console.log('email', p.emails[0].value)
-    let newUser =  await db('users').insert({user_name: p.emails[0].value, user_email: p.emails[0].value, user_identity: 'google', user_credential: p.id});
+    let newUser =  await db('users').insert({first_name: p.name.givenName, last_name: p.name.familyName, user_name: p.emails[0].value, user_email: p.emails[0].value, user_identity: 'google', user_credential: p.id});
     console.log(newUser)      
     return newUser
 }
