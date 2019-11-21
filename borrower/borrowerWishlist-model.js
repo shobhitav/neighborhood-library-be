@@ -36,6 +36,6 @@ async function toggleRequestToBorrow(borrowWishlist){
 
 // Remove a book from the borrower wishlist
 async function removeBook(borrowWishlist){
-    await db('borrower_wishlist ').where({id: borrowWishlist.id}).del();
+    await db('borrower_wishlist').where({id: borrowWishlist.id}).del();
     return findBooksByBorrowerId(borrowWishlist.borrower_id);
 }

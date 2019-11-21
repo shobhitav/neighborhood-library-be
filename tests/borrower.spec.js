@@ -7,30 +7,29 @@ const baseURI = '/api/borrower-wishlist';
 
 //TEST ROUTES
 describe('Borrower routes', () => {
-  let createdRecID;
+  let createdRecID = undefined;
 
   // clear db before tests
-  beforeEach(async () => {
+  beforeAll(async () => {
     await db('borrower_wishlist').truncate();
   });
 
   describe('insert()', () => {
-    it('should insert borrower wishlist book', async (done) => {
+    it('should insert borrower wishlist book', async () => {
       await request(server)
         .post(`${baseURI}/`)
         .send({
-          "borrower_id": 1,
-          "google_book_id": 12345,
-          "isbn": 12345678912345,
-          "request_to_borrow": true
+          borrower_id: 1,
+          google_book_id: "12345",
+          isbn: 12345678912345,
+          request_to_borrow: true
         })
-        .then(res => {
-          createRecID = res.body.id;
+        .then(async (res) => {
+          // save id for delete
+          createdRecID = res.body[0][0].id;
 
-          expect(res.type).toBe('application/json');
           expect(res.status).toBe(201);
-
-          done();
+          expect(res.type).toBe('application/json');
         })
     });
   });
@@ -57,15 +56,11 @@ describe('Borrower routes', () => {
   describe('delete()', () => {
     it('should delete borrower book record', async () => {
       await request(server)
-        .delete(`${baseURI}/`)
-        .send({id: createdRecID})
-        .then(res => {
-          console.log(res.error)
-          
+        .del(`${baseURI}/${createdRecID}`)
+        .then(async (res) => {
           expect(res.status).toBe(200);
-
-          done();
         })
     });
   });
+
 });
