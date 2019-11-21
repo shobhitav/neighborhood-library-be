@@ -5,8 +5,8 @@ const db = require('../database/dbConfig.js');
 //takes the user from the done call in the passport.use callback, and sets the session to rember them  by the second parameter in done
 //passport stores the user[0].user_credential on req.passport
 passport.serializeUser((user, done) => {
-    console.log(user)
-    done(null, user[0].user_credential);
+    
+    done(null, user[0].id);
 });
 
 //takes the user creds from serializeuser and makes a request to our database and calls done with the user info.  Passport then
