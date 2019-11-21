@@ -5,8 +5,8 @@ const helmet = require('helmet');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 
-const lenderRouter= require('./lender/lenderCollection-router.js');
-const borrowerRouter= require('./borrower/borrowerWishlist-router.js');
+const lenderRouter = require('./lender/lenderCollection-router.js');
+const borrowerRouter = require('./borrower/borrowerWishlist-router.js');
 const authRouter = require('./services/auth-routes.js');
 const usersRouter = require('./users/user-routes.js');
 
