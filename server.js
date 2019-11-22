@@ -23,7 +23,7 @@ server.use(passport.session());
 
 server.use('/auth', authRouter);
 // server.use('/api/users', usersRouter);
-server.use('/api/lender-collection', lenderRouter);
+server.use('/api/lender-collection',  lenderRouter);
 server.use('/api/borrower-wishlist', borrowerRouter);
 
 server.get('/', (req, res) => {
