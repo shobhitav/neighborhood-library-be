@@ -13,18 +13,23 @@ router.get('/google', passport.authenticate('google', {
 
 // gets user info back after log in
 router.get('/google/callback', passport.authenticate('google'),
-    (req, res) => res.redirect('/dashboard')
+    
+    (req, res) => {
+        console.log(req.headers.cookie) 
+        res.redirect('/dashboard')
+    }
 );
 
 // logs user out and removes req.user property and session
 router.get('/logout', (req, res) => {
     req.logout();
+    console.log(req.headers.cookie)
     res.redirect('/');
 })
 
 // returns current user info
 router.get('/current_user', (req, res) => {
-    console.log(req.headers.cookie);
+    
     res.send(req.user);
 });
 
@@ -43,6 +48,7 @@ router.post('/register', (req, res) => {
         res.status(500).json(err);
     })
 })
+///////////
 
 router.post('/login', (req, res) => {
   let { username, password } = req.body;
