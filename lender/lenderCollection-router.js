@@ -1,6 +1,5 @@
 const express = require('express');
-const lenderCollection = require('./lenderCollection-model.js');
-// const validateToken = require('../auth/validate.js');
+const lenderCollectionModel = require('./lenderCollection-model.js');
 
 const router = express.Router();
 
@@ -9,8 +8,8 @@ router.get('/:lender_id',async (req, res) => {
     const { lender_id } = req.params;
   
     try {
-      const collection = await lenderCollection.findBooksByLenderId(lender_id);
-      res.status(200).json(collection);
+      const lenderCollectionData = await lenderCollectionModel.findBooksByLenderId(lender_id);
+      res.status(200).json(lenderCollectionData );
     } catch (err) {
       res.status(500).json({ message: `Failed to get book collection for the lender ${lender_id}:` + err });
     }
@@ -21,8 +20,8 @@ router.post('/', async (req, res) => {
   const lenderBookData = req.body;
 
   try {
-    const collection = await lenderCollection.addBook(lenderBookData);
-    res.status(201).json(collection);
+    const lenderCollectionData = await lenderCollectionModel.addBook(lenderBookData);
+    res.status(201).json(lenderCollectionData );
   } catch (err) {
     res.status(500).json({ message: 'Failed to add book to collection:' + err });
   }
@@ -33,11 +32,11 @@ router.put('/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
-    const [bookFound] = await lenderCollection.findBookById(id);
+    const [bookFound] = await lenderCollectionModel.findBookById(id);
 
     if (bookFound) {
-      const collection = await lenderCollection.toggleAvailability(bookFound);
-      res.status(200).json(collection);
+      const lenderCollectionData = await lenderCollectionModel.toggleAvailability(bookFound);
+      res.status(200).json(lenderCollectionData );
     } else {
       res.status(404).json({ message: `Could not find book for lender collection id ${id}` });
     }
@@ -51,11 +50,11 @@ router.delete('/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
-    const [bookFound] = await lenderCollection.findBookById(id);
+    const [bookFound] = await lenderCollectionModel.findBookById(id);
 
     if (bookFound) {
-      const collection = await lenderCollection.removeBook(bookFound);
-      res.status(200).json(collection);
+      const lenderCollectionData = await lenderCollectionModel.removeBook(bookFound);
+      res.status(200).json(lenderCollectionData);
     } else {
       res.status(404).json({ message: `Could not find book for lender collection id ${id}` });
     }
