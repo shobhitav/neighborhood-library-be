@@ -3,7 +3,7 @@ const User = require('./user-models.js');
 
 const router = express.Router();
 
-// Get user by ID
+// Get user
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
 
@@ -19,12 +19,49 @@ router.get('/:id', async (req, res) => {
     }
   } catch (err) {
     res.status(500).json({
-      error: err
+      error: err.message
     });
   }
 });
 
-// Update user by ID
+// Create user
+router.post('/', async (req, res) => {
+  const user = req.body;
+
+  console.log(user);
+
+  if(user.user_identity === undefined) {
+    user.user_identity = 'muoVivlio';
+  }
+
+  try {
+    if (user.user_name && user.user_email && user.user_identity && user.user_credential) {
+      const addUser = await User.addUser(user);
+  
+      if (addUser) {
+        res.status(201).json({
+          message: "User created"
+        });
+      }
+    } else {
+      res.status(400).json({
+        message: 'All required fields not found.'
+      });
+    } 
+  } catch (err) {
+    if (err.detail.search('already exists')) {
+      res.status(500).json({
+        message: 'Username or Email address already exists'
+      })
+    } else {
+      res.status(500).json({
+        error: err.detail
+      });
+    }
+  }
+});
+
+// Update user
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
   const info = req.body;
@@ -33,13 +70,47 @@ router.put('/:id', async (req, res) => {
     const updateUser = await User.updateUser(info, id);
 
     if (updateUser) {
-      res.status(204);
+      res.status(200).json({
+        message: 'User updated'
+      });
     }
   } catch (err) {
     res.status(500).json({
-      error: err
-    })
+      error: err.message
+    });
   }
-})
+});
+
+// Deletes user
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  if(req.params) {
+
+  }
+
+  try {
+    const userExists = await User.getUserById(id);
+
+    if (userExists.length > 0) {
+      const removeUser = await User.removeUser(id);
+  
+      if (removeUser) {
+        res.status(200).json({
+          message: 'User deleted'
+        });
+      }
+    } else {
+      res.status(404).json({
+        message: 'User not found'
+      })
+    }
+
+  } catch (err) {
+    res.status(500).json({
+      error: err.message
+    });
+  }
+});
 
 module.exports = router;

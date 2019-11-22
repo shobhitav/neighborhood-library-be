@@ -7,7 +7,7 @@ const passport = require('passport');
 
 const lenderRouter= require('./lender/lenderCollection-router.js');
 const borrowerRouter= require('./borrower/borrowerWishlist-router.js');
-const authRouter = require('./routes/authRoutes.js');
+const authRouter = require('./services/auth-routes.js');
 const usersRouter = require('./users/user-routes.js');
 const transactionRouter=require('./transaction/transaction-router.js')
 

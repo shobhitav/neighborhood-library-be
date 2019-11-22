@@ -14,14 +14,13 @@ function getUserById(id) {
 
 // Creates user
 function addUser(user) {
+  console.log(user);
+  
   return db('users').insert(user);
 }
 
 // Updates user info by user ID
 function updateUser(info, id) {
-  // destructure for valid schema
-  console.log(info)
-
   return db('users')
     .where({id})
     .update(info);
