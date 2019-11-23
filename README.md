@@ -160,13 +160,13 @@ API prefix: `/api/transaction`
 In order for the app to function correctly, the user must set up their own environment variables.
 
 create a .env file that includes the following:
-    - PGHOST = postgreSQL host
-    - PGDB = postgreSQL database name
-    - PGUSER = postgreSQL super user name
-    - PGPASS = postgreSQL super user password
-    - googleClientID = Google API ID (Google+ API)
-    - googleClientSecret = Google API secret
-    - DB_ENV = set to "development", plans to impliment "production"
+- PGHOST = postgreSQL host
+- PGDB = postgreSQL database name
+- PGUSER = postgreSQL super user name
+- PGPASS = postgreSQL super user password
+- googleClientID = Google API ID (Google+ API)
+- googleClientSecret = Google API secret
+- DB_ENV = set to "development", plans to impliment "production"
     
 ## Contributing
 
