@@ -30,7 +30,7 @@ To get the server running locally:
 ## Endpoints
 
 #### User Routes
-API prefix: `/api/users/`
+API prefix: `/api/users`
 
 | Method | Endpoint                | Access Control      | Description                                        |
 | ------ | ----------------------- | ------------------- | -------------------------------------------------- |
@@ -44,20 +44,27 @@ API prefix: `/api/lender-collection`
 
 | Method | Endpoint                | Access Control      | Description                                        |
 | ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/:lender-id`           | n/a                 | Returns books added by lender.                     |
-| POST   | `/`                     | n/a                 | Adds book record for lender.                       |
-| PUT    | `/:id`                  | n/a                 | Updates if book is available.                      |
-| DELETE | `/:id`                  | n/a                 | Deletes book record for lender.                    |
-
+| GET    | `/:lender-id`           | admins, logged in user  | Returns books added by lender.                     |
+| POST   | `/`                     | admins, logged in user  | Adds book record for lender.                       |
+| PUT    | `/:id`                  | admins, logged in user  | Updates if book is available.                      |
+| DELETE | `/:id`                  | admins, logged in user  | Deletes book record for lender.                    |
 #### Borrower Routes
 API prefix: `/api/borrower-wishlist`
 
 | Method | Endpoint                | Access Control      | Description                                        |
 | ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/:borrower_id`         | n/a                 | Returns books added by borrow.                     |
-| POST   | `/`                     | n/a                 | Adds book record for borrower.                     |
-| PUT    | `/:id`                  | n/a                 | Updates if book request status for borrow.         |
-| DELETE | `/:id`                  | n/a                 | Deletes book for borrower.                         |
+| GET    | `/:borrower_id`         | admins, logged in user  | Returns wishlisted books added by borrow.        |
+| POST   | `/`                     | admins, logged in user  | Adds book record to borrower wishlist.         |
+| PUT    | `/:id`                  | admins, logged in user  | Updates book request status for borrow record.    |
+| DELETE | `/:id`                  | admins, logged in user  | Deletes wishlisted book for borrower.         |
+
+#### User Routes
+API prefix: `/api/transaction`
+
+| Method | Endpoint                | Access Control      | Description                                        |
+| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
+| POST   | `/:id`                | admins, logged in user  | Adds lend/borrow transaction.          |
+| PUT    | `/:id`                   | admins, logged in user  | Updates lend/borrow transaction.|
 
 # Data Model
 
