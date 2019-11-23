@@ -1,5 +1,3 @@
-🚫 Each student has a required minimum number of meaningful PRs each week per the rubric.  Contributing to docs does NOT count as a PR to meet your weekly requirements.
-
 # API Documentation
 
 #### Backend delpoyed to Heroku (https://muovivlio.herokuapp.com/)
@@ -9,11 +7,6 @@
 To get the server running locally:
 
 - Clone this repo
-- Create a .env file with the following keys:
-    PGHOST=[localhost]
-    PGDB=[database name]
-    PGUSER=[database user]
-    PGPASS=[database user password]
 - **yarn install** to install all required dependencies
 - **yarn server** to start the local server
 - **yarn test** to start server using testing environment
@@ -65,6 +58,7 @@ API prefix: `/api/transaction`
 | ------ | ----------------------- | ------------------- | -------------------------------------------------- |
 | POST   | `/:id`                | admins, logged in user  | Adds lend/borrow transaction.          |
 | PUT    | `/:id`                   | admins, logged in user  | Updates lend/borrow transaction.|
+
 
 # Data Model
 
@@ -128,14 +122,15 @@ API prefix: `/api/transaction`
 }
 ```
 
+
 ## Actions
 
 #### USERS
 
-`` ->
-`` ->
-`` ->
-`` ->
+`getUserById(id)` -> Returns user info by user ID
+`addUsers(info)` -> Creates user
+`updateUser(info, id)` -> Updates user by user ID
+`removeUser(id)` -> Deletes user by user ID
 
 #### LENDERS
 
@@ -145,7 +140,6 @@ API prefix: `/api/transaction`
 `toggleAvailability(lenderBook)` -> Updates book available status by google_book_id
 `removeBook(lenderBook)` -> Deletes lendable book by lender ID
 
-
 #### BORROWERS
 
 `findBooksByBorrowerId(borrower_id)` -> Returns books by borrower ID
@@ -154,20 +148,25 @@ API prefix: `/api/transaction`
 `toggleRequestToBorrow(borrowWishlist)` -> Toggles borrow request flag in UI
 `removeBook(borrowWishlist)` -> Deletes book request
 
+#### TRANSACTIONS
+
+`findTransactionById(id)` -> Returns transaction info
+`addTransaction(info)` -> Creates transaction
+`updateReturnTime(id)` -> Updates transaction with returned book date
+
 
 ## 3️⃣ Environment Variables
 
 In order for the app to function correctly, the user must set up their own environment variables.
 
 create a .env file that includes the following:
-
-🚫 These are just examples, replace them with the specifics for your app
-    
-    *  STAGING_DB - optional development db for using functionality not available in SQLite
-    *  NODE_ENV - set to "development" until ready for "production"
-    *  JWT_SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-*=+)') for i in range(50)])
-    *  SENDGRID_API_KEY - this is generated in your Sendgrid account
-    *  stripe_secret - this is generated in the Stripe dashboard
+    *  PGHOST - postgreSQL host
+    *  PGDB - postgreSQL database name
+    *  PGUSER - postgreSQL super user name
+    *  PGPASS - postgreSQL super user password
+    *  googleClientID - Google API ID (Google+ API)
+    *  googleClientSecret - Google API secret
+    *  DB_ENV - set to "development", plans to impliment "production"
     
 ## Contributing
 
@@ -207,5 +206,4 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 
 ## Documentation
 
-See [Frontend Documentation](🚫link to your frontend readme here) for details on the fronend of our project.
-🚫 Add DS iOS and/or Andriod links here if applicable.
+See [Frontend Documentation](https://github.com/Lambda-School-Labs/neighborhood-library-fe) for details on the fronend of our project.
