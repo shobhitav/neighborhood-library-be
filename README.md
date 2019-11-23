@@ -30,16 +30,14 @@ To get the server running locally:
 ## Endpoints
 
 #### User Routes
-API prefix: ``
+API prefix: `/api/users/`
 
 | Method | Endpoint                | Access Control      | Description                                        |
 | ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/users/current`        | all users           | Returns info for the logged in user.               |
-| GET    | `/users/org/:userId`    | all users           | Returns all users for an organization.             |
-| GET    | `/users/:userId`        | all users           | Returns info for a single user.                    |
-| POST   | `/users/register/owner` | all users           | Creates a new user as owner of a new organization. |
-| PUT    | `/users/:userId`        | all users           |                                                    |
-| DELETE | `/users/:userId`        | all users           |                                                    |
+| GET    | `/:id`                | admins, logged in user  | Returns user info.                     |
+| POST   | `/`                   | admins, logged in user  | Updates user information.              |
+| PUT    | `/:id`                | admins, logged in user  | Returns info for a single user.        |
+| DELETE | `/:id`                | admins, logged in user  | Delete user.                           |
 
 #### Lender Routes
 API prefix: `/api/lender-collection`
@@ -79,31 +77,47 @@ API prefix: `/api/borrower-wishlist`
 }
 ```
 
-#### LENDERS
+#### LENDER COLLECTION
 
 ---
 
 ```
 {
   id: UUID
-  lender_id: STRING (references id in USERS table)
+  lender_id: INTEGER (references id in USERS table)
   google_book_id: STRING
   isbn: INTEGER
   is_available: BOOLEAN
 }
 ```
 
-#### BORROWERS
+#### BORROWER WISHLIST
 
 ---
 
 ```
 {
   id: UUID
-  borrower_id: INTEGER references id in USERS table
-  google_book_id: INTEGER
-  isbn: INTEGER
-  request_to_borrow: BOOLEAN
+  borrower_id: INTEGER (references id in USERS table)
+  google_book_id: STRING
+  isbn: STRING
+  request_to_borrow: BOOLEAN (defaults to false)
+}
+```
+
+#### TRANSACTIONS
+
+---
+
+```
+{
+  id: UUID
+  borrower_id: INTEGER (references id in USERS table)
+  lender_id: INTEGER (references id in USERS table)
+  google_book_id: STRING
+  isbn: STRING
+  borrow_time: TIMESTAMP (auto assigned)
+  return_time: TIMESTAMP (auto assigned)
 }
 ```
 
