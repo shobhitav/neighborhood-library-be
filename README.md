@@ -127,46 +127,46 @@ API prefix: `/api/transaction`
 
 #### USERS
 
-`getUserById(id)` -> Returns user info by user ID
-`addUsers(info)` -> Creates user
-`updateUser(info, id)` -> Updates user by user ID
-`removeUser(id)` -> Deletes user by user ID
+- `getUserById(id)` -> Returns user info by user ID
+- `addUsers(info)` -> Creates user
+- `updateUser(info, id)` -> Updates user by user ID
+- `removeUser(id)` -> Deletes user by user ID
 
 #### LENDERS
 
-`findBooksByLenderId(lender_id)` -> Returns all books by lender ID
-`findBookById(id)` -> Returns lendable book by ID
-`addBook(lenderBook)` -> Creates lendable book
-`toggleAvailability(lenderBook)` -> Updates book available status by google_book_id
-`removeBook(lenderBook)` -> Deletes lendable book by lender ID
+- `findBooksByLenderId(lender_id)` -> Returns all books by lender ID
+- `findBookById(id)` -> Returns lendable book by ID
+- `addBook(lenderBook)` -> Creates lendable book
+- `toggleAvailability(lenderBook)` -> Updates book available status by google_book_id
+- `removeBook(lenderBook)` -> Deletes lendable book by lender ID
 
 #### BORROWERS
 
-`findBooksByBorrowerId(borrower_id)` -> Returns books by borrower ID
-`findBookById(id)` -> Returns book by borrower ID
-`addBook(borrowWishlist)` -> Creates borrow request for book
-`toggleRequestToBorrow(borrowWishlist)` -> Toggles borrow request flag in UI
-`removeBook(borrowWishlist)` -> Deletes book request
+- `findBooksByBorrowerId(borrower_id)` -> Returns books by borrower ID
+- `findBookById(id)` -> Returns book by borrower ID
+- `addBook(borrowWishlist)` -> Creates borrow request for book
+- `toggleRequestToBorrow(borrowWishlist)` -> Toggles borrow request flag in UI
+- `removeBook(borrowWishlist)` -> Deletes book request
 
 #### TRANSACTIONS
 
-`findTransactionById(id)` -> Returns transaction info
-`addTransaction(info)` -> Creates transaction
-`updateReturnTime(id)` -> Updates transaction with returned book date
+- `findTransactionById(id)` -> Returns transaction info
+- `addTransaction(info)` -> Creates transaction
+- `updateReturnTime(id)` -> Updates transaction with returned book date
 
 
-## 3️⃣ Environment Variables
+## Environment Variables
 
 In order for the app to function correctly, the user must set up their own environment variables.
 
 create a .env file that includes the following:
-    *  PGHOST - postgreSQL host
-    *  PGDB - postgreSQL database name
-    *  PGUSER - postgreSQL super user name
-    *  PGPASS - postgreSQL super user password
-    *  googleClientID - Google API ID (Google+ API)
-    *  googleClientSecret - Google API secret
-    *  DB_ENV - set to "development", plans to impliment "production"
+    - PGHOST = postgreSQL host
+    - PGDB = postgreSQL database name
+    - PGUSER = postgreSQL super user name
+    - PGPASS = postgreSQL super user password
+    - googleClientID = Google API ID (Google+ API)
+    - googleClientSecret = Google API secret
+    - DB_ENV = set to "development", plans to impliment "production"
     
 ## Contributing
 
