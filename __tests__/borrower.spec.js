@@ -19,14 +19,14 @@ describe('Borrower routes', () => {
       await request(server)
         .post(`${baseURI}/`)
         .send({
-          borrower_id: 1,
+          borrower_id: 29,
           google_book_id: "12345",
           isbn: 12345678912345,
           request_to_borrow: true
         })
         .then(async (res) => {
           // save id for delete
-          createdRecID = res.body[0][0].id;
+          createdRecID = res.body[0].id;
 
           expect(res.status).toBe(201);
           expect(res.type).toBe('application/json');
