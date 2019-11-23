@@ -34,24 +34,26 @@ describe('Borrower routes', () => {
     });
   });
 
-  // describe('get book record', () => {
-  //   it('return book record', async () => {
-  //     const borrowerID = 1;
+  describe('get()', () => {
+    it('return books by borrower', async () => {
+      const borrowerID = 29;
 
-  //     const res = await request(server).get(`${baseURI}/:${borrowerID}`);
+      const res = await request(server).get(`${baseURI}/${borrowerID}`);
 
-  //     expect(res).toHaveLength(1);
+      expect(res.body).toHaveLength(1);
 
-  //   });
+    });
 
-    // it('return error', async () => {
-    //   const borrowerID = 1337;
+    it('return [] on books by borrower', async () => {
+      const borrowerID = 1;
 
-    //   const res = await request(server).get(`${baseURI}/:${borrowerID}`);
+      const res = await request(server).get(`${baseURI}/${borrowerID}`);
 
-    //   expect(res).toBe(null);
-    // })
-  // });
+      expect(res.body).toHaveLength(0);
+    })
+  });
+
+  
 
   describe('delete()', () => {
     it('should delete borrower book record', async () => {
