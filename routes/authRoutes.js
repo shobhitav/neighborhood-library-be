@@ -33,7 +33,7 @@ router.get('/current_user', (req, res) => {
     res.send(req.user);
 });
 
-/////Regular Username Password (non oauth)Routes///////////////////////////////////////////////////////////
+/////localStrategy Routes///////////////////////////////////////////////////////////
 
 router.post('/register', (req, res) => {
     const user = req.body;

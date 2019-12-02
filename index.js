@@ -3,6 +3,7 @@ require('dotenv').config();
 const server = require('./server.js');
 
 require('./services/passport.js');
+require('./services/passportLocal.js');
 
 const port = process.env.PORT || 5000;
 
