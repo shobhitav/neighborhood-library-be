@@ -34,5 +34,22 @@ router.get('/current_user', (req, res) => {
 /////localStrategy Routes///////////////////////////////////////////////////////////
 
 
+//911//911//911
+//set the res.redirect when the dashboard is ready and linked in heroku in login
+
+//login user and send to dashboard when successful or login if not
+router.post('/login', passport.authenticate('local.login', {failureRedirect: '/login'}), (req, res) => {
+    //res.redirect('/dashboard');
+    res.send('<h1>success!</h1>');
+})
+
+//register users and send to dashboard or back to form based on sucess
+router.post('/register', passport.authenticate('local.register', {
+    successRedirect : '/dashboard', 
+    failureRedirect : '/register', 
+    failureFlash : true 
+}));
+
+
 
 module.exports = router;

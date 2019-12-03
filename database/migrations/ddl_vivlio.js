@@ -10,8 +10,8 @@ return (
             users.string('last_name', 255).notNullable();
             users.string('user_name', 255).notNullable().unique();//username
             users.string('user_email', 255).notNullable().unique();//email
-            users.string('user_identity', 255).notNullable();//'muoVivlio'
-            users.string('user_credential', 255).notNullable();//'password'
+            users.string('user_identity', 255).notNullable();//'muoVivlio' || 'google'
+            users.string('user_credential', 255).notNullable();//'password' || "googleProfile.id" 
             // users.string('city', 255).notNullable();
             // users.string('state', 255).notNullable();
         })

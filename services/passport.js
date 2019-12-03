@@ -2,6 +2,9 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
 const db = require('../database/dbConfig.js');
 
+//imports the local strategy file and makes it available in the app throuth this import
+require('./passportLocal.js');
+
 //takes the user from the done call in the passport.use callback, and sets the session to rember them  by the second parameter in done
 //passport stores the user[0].user_credential on req.passport
 passport.serializeUser((user, done) => {
