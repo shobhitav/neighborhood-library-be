@@ -61,10 +61,15 @@ passport.use('local.register', new LocalStrategy({
         const { first_name, last_name, user_email } = req.body;
         const hash = bcrypt.hashSync(password, 10);
         const cred = hash;
-        const newUser = db('users').insert({first_name: first_name, last_name: last_name, user_name: username, user_email: user_email, user_identity: 'muoVivlio', user_credential: cred});
-        //911//911//911
-        //right here the code begins to break because I am not wired to postgres properly the following log will show what gets passed to passport.serializeUser().  the user is not defined for some reaon it is passing the knex insert object, and should fix when wired in to db, and if not, then we will need to debug further
-        console.log(newUser)
+        const newUser = await db('users').insert(
+          {first_name: first_name, last_name: last_name, user_name: username, user_email, user_identity: 'muoVivlio', user_credential: cred})
+          .then(async () => {
+            return await db('users').where({user_name: username});
+          })
+          .catch(err => {
+            console.log(err.body);
+          });
+          
         return done(null, newUser);  
       }
     
@@ -73,7 +78,6 @@ passport.use('local.register', new LocalStrategy({
 
 
 
-//see how to go into verify callback after db users call
 
 
   

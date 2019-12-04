@@ -4,6 +4,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
+const flash = require('connect-flash');
 
 const lenderRouter= require('./lender/lenderCollection-router.js');
 const borrowerRouter= require('./borrower/borrowerWishlist-router.js');
@@ -20,6 +21,7 @@ function protectedRoute(req, res, next) {
 server.use(helmet());
 server.use(cors());
 server.use(express.json());
+server.use(flash());
 server.use(
   cookieSession({
       maxAge: 30 * 24 * 60 * 60 * 1000,
