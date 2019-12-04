@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
  
 //takes user object from login or reg and sets user id to session
 passport.serializeUser((user, done) => {
-    
+    //console.log(user)
   done(null, user.id);
 });
 
@@ -35,13 +35,13 @@ passport.use('local.login', new LocalStrategy({
   passwordField: 'user_credential',
   passReqToCallback: true,
 },
-  function(req, username, password, done) {
-    db('users').where({user_name: username}, function (err, user) {
-      if (err) { return done(err); }
+  async function(req, username, password, done) {
+    const user = await db('users').where({user_name: username});
+      
       if (!user) { return done(null, false, req.flash('loginMessage', 'incorrect username')); }
       if (!user.verifyPassword(password)) { return done(null, false, req.flash('loginMessage', 'incorrect password')); }
       return done(null, user);
-    });
+    ;
   }
 ));
 
@@ -52,21 +52,28 @@ passport.use('local.register', new LocalStrategy({
   passwordField: 'user_credential',//how is this pulling these out of the user fields?? see https://github.com/jaredhanson/passport-local/blob/master/lib/strategy.js line 71 and 72 linked to line 49 and 50 ie coming from req.body, programmed in there by Jared himself
   passReqToCallback: true,
 },
-  function(req, username, password, done) {
-    db('users').where({user_name: username}, function (err, user) {
-      if (err) { return done(err); }
-      if (user) { return done(null, false, req.flash('registerMessage', 'username is already taken')); }
+ async function(req, username, password, done) {
+    const user = await db('users').where({user_name: username}); 
+      
+      
+      if (user.length > 0) { return done(null, false, req.flash('registerMessage', 'username is already taken')); }
       else {
         const { first_name, last_name, user_email } = req.body;
         const hash = bcrypt.hashSync(password, 10);
         const cred = hash;
         const newUser = db('users').insert({first_name: first_name, last_name: last_name, user_name: username, user_email: user_email, user_identity: 'muoVivlio', user_credential: cred});
+        //911//911//911
+        //right here the code begins to break because I am not wired to postgres properly the following log will show what gets passed to passport.serializeUser().  the user is not defined for some reaon it is passing the knex insert object, and should fix when wired in to db, and if not, then we will need to debug further
+        console.log(newUser)
         return done(null, newUser);  
       }
-    });
+    
   }
 ));
 
+
+
+//see how to go into verify callback after db users call
 
 
   
