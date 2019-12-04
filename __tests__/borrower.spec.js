@@ -20,7 +20,7 @@ describe('Borrower routes', () => {
       await request(server)
         .post(`${baseURI}/`)
         .send({
-          borrower_id: 29,
+          borrower_id: 1,
           google_book_id: "12345",
           isbn: 12345678912345,
           request_to_borrow: true
@@ -51,7 +51,7 @@ describe('Borrower routes', () => {
   // GET
   describe('get()', () => {
     it('return books by borrower', async () => {
-      const borrowerID = 29;
+      const borrowerID = 1;
 
       const res = await request(server).get(`${baseURI}/${borrowerID}`);
 
@@ -59,7 +59,7 @@ describe('Borrower routes', () => {
     });
 
     it('return blank array', async () => {
-      const borrowerID = 1;
+      const borrowerID = 0;
 
       const res = await request(server).get(`${baseURI}/${borrowerID}`);
 

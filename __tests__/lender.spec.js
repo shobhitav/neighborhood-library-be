@@ -19,7 +19,7 @@ describe('lender routes', () => {
         .post(`${baseURI}/`)
         .send({
           google_book_id: 1591984,
-          lender_id: 29,
+          lender_id: 1,
           isbn: 626558,
           is_available: true
         })
@@ -42,7 +42,16 @@ describe('lender routes', () => {
   });
 
   // GET
-  describe('return lender book', () => {
+  describe('return lender books', () => {
+    it('get books', async () => {
+      await request(server)
+        .get(`${baseURI}/1`)
+        .then(res => {
+          expect(res.status).toBe(200);
+          // expect(res.body).toHaveLength(1);
+        })
+    });
+
     it('', async () => {
       await request(server);
     });

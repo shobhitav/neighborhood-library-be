@@ -4,7 +4,8 @@
   "description": "🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline. Feel free to add your own flare to it.",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "node index.js",
+    "server": "nodemon index.js",
     "test": "jest --detectOpenHandles --watch"
   },
   "repository": {
@@ -24,7 +25,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "helmet": "^3.21.0",
-    "knex": "^0.20.1",
+    "knex": "^0.20.3",
     "passport": "^0.4.0",
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
