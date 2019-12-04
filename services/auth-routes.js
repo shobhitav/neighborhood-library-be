@@ -23,7 +23,7 @@ router.get('/logout', (req, res) => {
     req.logout();
     console.log(req.headers.cookie)
     res.redirect('/');
-})
+});
 
 // returns current user info
 router.get('/current_user', (req, res) => {
