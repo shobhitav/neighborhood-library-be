@@ -49,15 +49,9 @@ router.post('/', async (req, res) => {
       });
     } 
   } catch (err) {
-    // if (err.detail.search('already exists')) {
-    //   res.status(500).json({
-    //     message: 'Username or Email address already exists'
-    //   })
-    // } else {
-      res.status(500).json({
-        error: err.detail
-      });
-    // }
+    res.status(500).json({
+      error: err.detail
+    });
   }
 });
 
