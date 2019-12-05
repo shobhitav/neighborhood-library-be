@@ -67,7 +67,7 @@ passport.use('local.register', new LocalStrategy({
             return await db('users').where({user_name: username});
           })
           .catch(err => {
-            console.log(err.body);
+            console.log(err.detail, 'passportLocal-70');
           });
           
         return done(null, newUser);  
