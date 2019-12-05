@@ -4,10 +4,14 @@ return (
         .schema
         .createTable('users', users => {
             users.increments(); //Id
-            users.string('user_name', 255).notNullable().unique();
-            users.string('user_email', 255).notNullable().unique();
-            users.string('user_identity', 255).notNullable();
-            users.string('user_credential', 255).notNullable();
+            //first name, last name, email, username, password Are what the registration form has so
+            //we need to add line 9 and 10:
+            users.string('first_name', 255).notNullable();
+            users.string('last_name', 255).notNullable();
+            users.string('user_name', 255).notNullable().unique();//username
+            users.string('user_email', 255).notNullable().unique();//email
+            users.string('user_identity', 255).notNullable();//'muoVivlio' || 'google'
+            users.string('user_credential', 255).notNullable();//'password' || "googleProfile.id" 
             // users.string('city', 255).notNullable();
             // users.string('state', 255).notNullable();
         })

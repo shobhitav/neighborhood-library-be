@@ -1,6 +1,8 @@
 // Update with your config settings.
 require('dotenv').config();
 
+//change || statements and port before commit
+
 module.exports = {
   client: 'pg',
   connection: {
