@@ -45,7 +45,7 @@ router.post('/login', passport.authenticate('local.login', {failureRedirect: '/l
 
 //register users and send to dashboard or back to form based on sucess
 router.post('/register', passport.authenticate('local.register', {
-    successRedirect : '/dashboard', 
+    successRedirect : '/login', 
     failureRedirect : '/register', 
     failureFlash : true 
 }));
