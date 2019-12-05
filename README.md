@@ -1,10 +1,18 @@
+🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline. Feel free to add your own flare to it.
+
+🚫 The numbers 1️⃣ through 3️⃣ next to each item represent the week that part of the docs needs to be comepleted by.  Make sure to delete the numbers by the end of Labs.
+
+🚫 Each student has a required minimum number of meaningful PRs each week per the rubric.  Contributing to docs does NOT count as a PR to meet your weekly requirements.
+
 # API Documentation
 
-#### Backend delpoyed to Heroku (https://muovivlio.herokuapp.com/)
+#### 1️⃣ Backend delpoyed at [🚫name service here](🚫add URL here) <br>
 
-## Getting started
+## 1️⃣ Getting started
 
 To get the server running locally:
+
+🚫 adjust these scripts to match your project
 
 - Clone this repo
 - **yarn install** to install all required dependencies
@@ -20,48 +28,48 @@ To get the server running locally:
 -    Point Three
 -    Point Four
 
-## Endpoints
+## 2️⃣ Endpoints
+
+🚫This is a placeholder, replace the endpoints, access controll, and descriptioin to match your project
+
+#### Organization Routes
+
+| Method | Endpoint                | Access Control | Description                                  |
+| ------ | ----------------------- | -------------- | -------------------------------------------- |
+| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
+| PUT    | `/organizatoins/:orgId` | owners         | Modify an existing organization.             |
+| DELETE | `/organizations/:orgId` | owners         | Delete an organization.                      |
 
 #### User Routes
-API prefix: `/api/users`
 
 | Method | Endpoint                | Access Control      | Description                                        |
 | ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/:id`                | admins, logged in user  | Returns user info.                     |
-| POST   | `/`                   | admins, logged in user  | Updates user information.              |
-| PUT    | `/:id`                | admins, logged in user  | Returns info for a single user.        |
-| DELETE | `/:id`                | admins, logged in user  | Delete user.                           |
-
-#### Lender Routes
-API prefix: `/api/lender-collection`
-
-| Method | Endpoint                | Access Control      | Description                                        |
-| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/:lender-id`           | admins, logged in user  | Returns books added by lender.                     |
-| POST   | `/`                     | admins, logged in user  | Adds book record for lender.                       |
-| PUT    | `/:id`                  | admins, logged in user  | Updates if book is available.                      |
-| DELETE | `/:id`                  | admins, logged in user  | Deletes book record for lender.                    |
-#### Borrower Routes
-API prefix: `/api/borrower-wishlist`
-
-| Method | Endpoint                | Access Control      | Description                                        |
-| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/:borrower_id`         | admins, logged in user  | Returns wishlisted books added by borrow.        |
-| POST   | `/`                     | admins, logged in user  | Adds book record to borrower wishlist.         |
-| PUT    | `/:id`                  | admins, logged in user  | Updates book request status for borrow record.    |
-| DELETE | `/:id`                  | admins, logged in user  | Deletes wishlisted book for borrower.         |
-
-#### User Routes
-API prefix: `/api/transaction`
-
-| Method | Endpoint                | Access Control      | Description                                        |
-| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| POST   | `/:id`                | admins, logged in user  | Adds lend/borrow transaction.          |
-| PUT    | `/:id`                   | admins, logged in user  | Updates lend/borrow transaction.|
-
+| GET    | `/users/current`        | all users           | Returns info for the logged in user.               |
+| GET    | `/users/org/:userId`    | owners, supervisors | Returns all users for an organization.             |
+| GET    | `/users/:userId`        | owners, supervisors | Returns info for a single user.                    |
+| POST   | `/users/register/owner` | none                | Creates a new user as owner of a new organization. |
+| PUT    | `/users/:userId`        | owners, supervisors |                                                    |
+| DELETE | `/users/:userId`        | owners, supervisors |                                                    |
 
 # Data Model
 
+🚫This is just an example. Replace this with your data model
+
+#### 2️⃣ ORGANIZATIONS
+
+---
+
+```
+{
+  id: UUID
+  name: STRING
+  industry: STRING
+  paid: BOOLEAN
+  customer_id: STRING
+  subscription_id: STRING
+}
+```
+
 #### USERS
 
 ---
@@ -69,104 +77,58 @@ API prefix: `/api/transaction`
 ```
 {
   id: UUID
-  user_name: STRING
-  user_email: STRING
-  user_identity: STRING (classification of login)
-  user_credential: STRING
-  city: STRING
-  state: STRING
+  organization_id: UUID foreign key in ORGANIZATIONS table
+  first_name: STRING
+  last_name: STRING
+  role: STRING [ 'owner', 'supervisor', 'employee' ]
+  email: STRING
+  phone: STRING
+  cal_visit: BOOLEAN
+  emp_visit: BOOLEAN
+  emailpref: BOOLEAN
+  phonepref: BOOLEAN
 }
 ```
 
-#### LENDER COLLECTION
+## 2️⃣ Actions
 
----
+🚫 This is an example, replace this with the actions that pertain to your backend
 
-```
-{
-  id: UUID
-  lender_id: INTEGER (references id in USERS table)
-  google_book_id: STRING
-  isbn: INTEGER
-  is_available: BOOLEAN
-}
-```
+`getOrgs()` -> Returns all organizations
 
-#### BORROWER WISHLIST
+`getOrg(orgId)` -> Returns a single organization by ID
 
----
+`addOrg(org)` -> Returns the created org
 
-```
-{
-  id: UUID
-  borrower_id: INTEGER (references id in USERS table)
-  google_book_id: STRING
-  isbn: STRING
-  request_to_borrow: BOOLEAN (defaults to false)
-}
-```
+`updateOrg(orgId)` -> Update an organization by ID
 
-#### TRANSACTIONS
+`deleteOrg(orgId)` -> Delete an organization by ID
+<br>
+<br>
+<br>
+`getUsers(orgId)` -> if no param all users
 
----
+`getUser(userId)` -> Returns a single user by user ID
 
-```
-{
-  id: UUID
-  borrower_id: INTEGER (references id in USERS table)
-  lender_id: INTEGER (references id in USERS table)
-  google_book_id: STRING
-  isbn: STRING
-  borrow_time: TIMESTAMP (auto assigned)
-  return_time: TIMESTAMP (auto assigned)
-}
-```
+`addUser(user object)` --> Creates a new user and returns that user. Also creates 7 availabilities defaulted to hours of operation for their organization.
 
+`updateUser(userId, changes object)` -> Updates a single user by ID.
 
-## Actions
+`deleteUser(userId)` -> deletes everything dependent on the user
 
-#### USERS
-
-- `getUserById(id)` -> Returns user info by user ID
-- `addUsers(info)` -> Creates user
-- `updateUser(info, id)` -> Updates user by user ID
-- `removeUser(id)` -> Deletes user by user ID
-
-#### LENDERS
-
-- `findBooksByLenderId(lender_id)` -> Returns all books by lender ID
-- `findBookById(id)` -> Returns lendable book by ID
-- `addBook(lenderBook)` -> Creates lendable book
-- `toggleAvailability(lenderBook)` -> Updates book available status by google_book_id
-- `removeBook(lenderBook)` -> Deletes lendable book by lender ID
-
-#### BORROWERS
-
-- `findBooksByBorrowerId(borrower_id)` -> Returns books by borrower ID
-- `findBookById(id)` -> Returns book by borrower ID
-- `addBook(borrowWishlist)` -> Creates borrow request for book
-- `toggleRequestToBorrow(borrowWishlist)` -> Toggles borrow request flag in UI
-- `removeBook(borrowWishlist)` -> Deletes book request
-
-#### TRANSACTIONS
-
-- `findTransactionById(id)` -> Returns transaction info
-- `addTransaction(info)` -> Creates transaction
-- `updateReturnTime(id)` -> Updates transaction with returned book date
-
-
-## Environment Variables
+## 3️⃣ Environment Variables
 
 In order for the app to function correctly, the user must set up their own environment variables.
 
 create a .env file that includes the following:
-- PGHOST = postgreSQL host
-- PGDB = postgreSQL database name
-- PGUSER = postgreSQL super user name
-- PGPASS = postgreSQL super user password
-- googleClientID = Google API ID (Google+ API)
-- googleClientSecret = Google API secret
-- DB_ENV = set to "development", plans to impliment "production"
+
+🚫 These are just examples, replace them with the specifics for your app
+    
+    *  STAGING_DB - optional development db for using functionality not available in SQLite
+    *  NODE_ENV - set to "development" until ready for "production"
+    *  JWT_SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-*=+)') for i in range(50)])
+    *  SENDGRID_API_KEY - this is generated in your Sendgrid account
+    *  stripe_secret - this is generated in the Stripe dashboard
     
 ## Contributing
 
@@ -206,4 +168,5 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 
 ## Documentation
 
-See [Frontend Documentation](https://github.com/Lambda-School-Labs/neighborhood-library-fe) for details on the fronend of our project.
+See [Frontend Documentation](🚫link to your frontend readme here) for details on the fronend of our project.
+🚫 Add DS iOS and/or Andriod links here if applicable.
