@@ -52,9 +52,9 @@ router.post('/register', passport.authenticate('local.register', {
     failureFlash : true 
 }), (req, res) => {
     res.json({
-        registerSuccess: true;
+        registerSuccess: true
     });
-};
+});
 
 
 
