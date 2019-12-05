@@ -62,12 +62,12 @@ passport.use('local.register', new LocalStrategy({
         const hash = bcrypt.hashSync(password, 10);
         const cred = hash;
         const newUser = await db('users').insert(
-          {first_name: first_name, last_name: last_name, user_name: username, user_email, user_identity: 'muoVivlio', user_credential: cred})
+          {user_name: username, user_email, user_identity: 'muoVivlio', user_credential: cred})
           .then(async () => {
             return await db('users').where({user_name: username});
           })
           .catch(err => {
-            console.log(err.body);
+            console.log(err.detail, 'passportLocal-70');
           });
           
         return done(null, newUser);  
