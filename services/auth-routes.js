@@ -40,15 +40,21 @@ router.get('/current_user', (req, res) => {
 //login user and send to dashboard when successful or login if not
 router.post('/login', passport.authenticate('local.login', {failureRedirect: '/login'}), (req, res) => {
     //res.redirect('/dashboard');
-    res.send('<h1>success!</h1>');
+    res.json({
+        loginSuccess: true
+    });
 })
 
 //register users and send to dashboard or back to form based on sucess
 router.post('/register', passport.authenticate('local.register', {
-    successRedirect : '/login', 
-    failureRedirect : '/register', 
+//     successRedirect : '/login', 
+//     failureRedirect : '/register', 
     failureFlash : true 
-}));
+}), (req, res) => {
+    res.json({
+        registerSuccess: true;
+    });
+};
 
 
 
