@@ -40,7 +40,7 @@ router.get('/current_user', (req, res) => {
 //login user and send to dashboard when successful or login if not
 router.post('/login', passport.authenticate('local.login', {failureRedirect: '/login'}), (req, res) => {
     //res.redirect('/dashboard');
-    res.json({
+    res.status(200).json({
         loginSuccess: true
     });
 })
@@ -51,7 +51,7 @@ router.post('/register', passport.authenticate('local.register', {
 //     failureRedirect : '/register', 
     failureFlash : true 
 }), (req, res) => {
-    res.json({
+    res.status(201).json({
         registerSuccess: true
     });
 });
