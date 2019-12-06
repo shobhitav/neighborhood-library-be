@@ -42,11 +42,12 @@ passport.use('local.login', new LocalStrategy({
       
     if (!user) {
       return done(null, false, req.flash('loginMessage', 'incorrect username'));
-    } else if (user.password != password) {
+    } else if (bcrypt.compare(password, user[0].user_credential)) {
+      return done(null, user);
+    } else {
       return done(null, false, req.flash('loginMessage', 'incorrect password'));
     }
 
-    return done(null, user);
   }
 ));
 
