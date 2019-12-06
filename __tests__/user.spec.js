@@ -3,35 +3,37 @@ const request = require('supertest');
 const server = require('../server.js'); // Routes
 const db = require('../database/dbConfig.js'); // DB
 
-const userURI = '/api/user';
+const userURI = '/api/users';
 const authURI = '/auth';
 
-// describe('user routes', () => {
-//   let currUserID = 0;
+describe('user routes', () => {
+  let currUserID = 0;
 
-//   // clear db before tests
-//   beforeAll(async () => {
-//     await db('users').truncate();
-//   });
+  // REGISTER
+  // describe('insert user', () => {
+  //   it('add user', async () => {
+  //     // await request(server)
+  //     //   .post(`${userURI}/`)
+  //     //   .then(() => )
 
-//   // REGISTER
-//   describe('insert user', () => {
-//     it('add user', async () => {
-//       await request(server)
-//         .post(`${userURI}/`)
+  //    await db('users').insert({
+  //       user_name: 'brownie3',
+  //       user_email: 'cookie@brownie.com3',
+  //       user_identity: 'muoVivlio',
+  //       user_credential: 'heyThere'
+  //     });
 
-//       const userInfo = await db('users').insert({
-//         user_name: 'brownie',
-//         user_email: 'cookie@brownie.com',
-//         user_identity: 'muoVivlio',
-//         user_credential: 'heyThere'
-//       });
+  //     await request(server) {
+  //       .get(`${}/`)
+  //     }
+  //     .then(res => {
+  //       currUserID = res.body[0].id;
+  
+  //       expect(userInfo).toHaveLength(1);
+  //     });
         
-//       currUserID = res.body[0].id;
-
-//       expect(userInfo).toHaveLength(1);
-//     });
-//   });
+  //   });
+  // });
 
   // POST
   // describe('insert lender book', () => {
@@ -51,4 +53,17 @@ const authURI = '/auth';
   //       });
   //   });
   // });
-// });
+
+  // DELETE
+  // describe('delete user', () => {
+  //   it('delete user', async () => {
+  //     await request(server)
+  //       .delete(`${userURI}/${currUserID}`)
+  //       .then(res => {
+  //         console.log(res.body);
+  //         expect(res.body.message).toBe('User deleted');
+  //       })
+
+  //   });
+  // });
+});
