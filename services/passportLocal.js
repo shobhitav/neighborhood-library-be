@@ -39,7 +39,7 @@ passport.use('local.login', new LocalStrategy({
     const user = await db('users').where({user_name: username});
       
       if (!user) { return done(null, false, req.flash('loginMessage', 'incorrect username')); }
-      if (!user.verifyPassword(password)) { return done(null, false, req.flash('loginMessage', 'incorrect password')); }
+      if (user.password != password) { return done(null, false, req.flash('loginMessage', 'incorrect password')); }
       return done(null, user);
     ;
   }
