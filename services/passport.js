@@ -16,12 +16,13 @@ passport.serializeUser((user, done) => {
 //takes the user creds from serializeuser and makes a request to our database and calls done with the user info.  Passport then
 //stores the user info on req.user, and we now have access to the user profile
 passport.deserializeUser( async (id, done) => {  
-    const User = await db('users').where({user_credential: id})
+    const User = await db('users').where({user_credential: id});
     
     if (User) {
-        done(null, User)
+        done(null, User);
+    } else {
+        console.log('passport.js line 24');
     }
-    
 });
 
 //the following implements googleStrategy for auth, and in the callback holds the logic to register new users, 
@@ -49,7 +50,7 @@ passport.use(
 
 async function addNewUser(p) {
     console.log('email', p.emails[0].value)
-    let newUser =  await db('users').insert({user_name: p.emails[0].value, user_email: p.emails[0].value, user_identity: 'google', user_credential: p.id});
+    let newUser = await db('users').insert({user_name: p.emails[0].value, user_email: p.emails[0].value, user_identity: 'google', user_credential: p.id});
     // first_name: p.name.givenName, last_name: p.name.familyName,
     console.log(newUser)      
     return newUser

@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
  
 //takes user object from login or reg and sets user id to session
 passport.serializeUser((user, done) => {
-    //console.log(user)
+  console.log('serialize fired!', user);
   done(null, user.id);
 });
 
@@ -37,11 +37,16 @@ passport.use('local.login', new LocalStrategy({
 },
   async function(req, username, password, done) {
     const user = await db('users').where({user_name: username});
+
+    console.log('local.login fired', user);
       
-      if (!user) { return done(null, false, req.flash('loginMessage', 'incorrect username')); }
-      if (user.password != password) { return done(null, false, req.flash('loginMessage', 'incorrect password')); }
-      return done(null, user);
-    ;
+    if (!user) {
+      return done(null, false, req.flash('loginMessage', 'incorrect username'));
+    } else if (user.password != password) {
+      return done(null, false, req.flash('loginMessage', 'incorrect password'));
+    }
+
+    return done(null, user);
   }
 ));
 
@@ -56,22 +61,23 @@ passport.use('local.register', new LocalStrategy({
     const user = await db('users').where({user_name: username}); 
       
       
-      if (user.length > 0) { return done(null, false, req.flash('registerMessage', 'username is already taken')); }
-      else {
-        const { first_name, last_name, user_email } = req.body;
-        const hash = bcrypt.hashSync(password, 10);
-        const cred = hash;
-        const newUser = await db('users').insert(
-          {user_name: username, user_email, user_identity: 'muoVivlio', user_credential: cred})
-          .then(async () => {
-            return await db('users').where({user_name: username});
-          })
-          .catch(err => {
-            console.log(err.detail, 'passportLocal-70');
-          });
-          
-        return done(null, newUser);  
-      }
+    if (user.length > 0) {
+      return done(null, false, req.flash('registerMessage', 'username is already taken'));
+    } else {
+      const { first_name, last_name, user_email } = req.body;
+      const hash = bcrypt.hashSync(password, 10);
+      const cred = hash;
+      const newUser = await db('users').insert(
+        {user_name: username, user_email, user_identity: 'muoVivlio', user_credential: cred})
+        .then(async () => {
+          return await db('users').where({user_name: username});
+        })
+        .catch(err => {
+          console.log(err.detail, 'passportLocal-70');
+        });
+        
+      return done(null, newUser);  
+    }
     
   }
 ));
