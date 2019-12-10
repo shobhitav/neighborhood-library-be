@@ -33,9 +33,7 @@ passport.use(
         clientSecret: process.env.googleClientSecret,
         callbackURL: '/auth/google/callback',
         proxy: true
-    }, async (accessToken, refreshToken, profile, done) => {
-        console.log(profile);
-   
+    }, async (accessToken, refreshToken, profile, done) => {   
         let user = await db('users').where({user_credential: profile.id});
     
         if (user.length > 0) {
@@ -49,9 +47,7 @@ passport.use(
 }));
 
 async function addNewUser(p) {
-    console.log('email', p.emails[0].value)
     let newUser = await db('users').insert({user_name: p.emails[0].value, user_email: p.emails[0].value, user_identity: 'google', user_credential: p.id});
     // first_name: p.name.givenName, last_name: p.name.familyName,
-    console.log(newUser)      
     return newUser
 }

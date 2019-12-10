@@ -35,6 +35,10 @@ server.use(
 );
 server.use(passport.initialize());
 server.use(passport.session());
+server.use(function(req, res, next){
+  console.log(`${req.method}`);
+  next();
+});
 
 server.use('/auth', authRouter);
 

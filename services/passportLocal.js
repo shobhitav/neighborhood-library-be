@@ -37,8 +37,6 @@ passport.use('local.login', new LocalStrategy({
 },
   async function(req, username, password, done) {
     const user = await db('users').where({user_name: username});
-
-    console.log('local.login fired', user);
       
     if (!user) {
       return done(null, false, req.flash('loginMessage', 'incorrect username'));
@@ -59,10 +57,13 @@ passport.use('local.register', new LocalStrategy({
   passReqToCallback: true,
 },
  async function(req, username, password, done) {
+  console.log('registering user');
+
     const user = await db('users').where({user_name: username}); 
       
       
     if (user.length > 0) {
+      console.log('username taken');
       return done(null, false, req.flash('registerMessage', 'username is already taken'));
     } else {
       const { first_name, last_name, user_email } = req.body;
@@ -71,6 +72,7 @@ passport.use('local.register', new LocalStrategy({
       const newUser = await db('users').insert(
         {user_name: username, user_email, user_identity: 'muoVivlio', user_credential: cred})
         .then(async () => {
+          console.log('returning new user');
           return await db('users').where({user_name: username});
         })
         .catch(err => {

@@ -10,30 +10,28 @@ describe('user routes', () => {
   let currUserID = 0;
 
   // REGISTER
-  // describe('insert user', () => {
-  //   it('add user', async () => {
-  //     // await request(server)
-  //     //   .post(`${userURI}/`)
-  //     //   .then(() => )
+  describe('insert user', () => {
+    it('add user', async () => {
+      const userName = "testAccount";
 
-  //    await db('users').insert({
-  //       user_name: 'brownie3',
-  //       user_email: 'cookie@brownie.com3',
-  //       user_identity: 'muoVivlio',
-  //       user_credential: 'heyThere'
-  //     });
+      await db('users').insert({
+        "user_name": userName,
+        "user_email": "testAccount@test.com",
+        "user_identity": "tester",
+        "user_credential": "testPass"
+      });
 
-  //     await request(server) {
-  //       .get(`${}/`)
-  //     }
-  //     .then(res => {
-  //       currUserID = res.body[0].id;
-  
-  //       expect(userInfo).toHaveLength(1);
-  //     });
-        
-  //   });
-  // });
+      const newUser = await db('users').where('user_name', userName);
+
+      await request(server)
+        .get(`${userURI}/${newUser[0].id}`)
+        .then(res => {
+          currUserID = res.body.id;
+    
+          expect(res.body.user_name).toBe(userName);
+        });       
+    });
+  });
 
   // POST
   // describe('insert lender book', () => {
@@ -55,15 +53,14 @@ describe('user routes', () => {
   // });
 
   // DELETE
-  // describe('delete user', () => {
-  //   it('delete user', async () => {
-  //     await request(server)
-  //       .delete(`${userURI}/${currUserID}`)
-  //       .then(res => {
-  //         console.log(res.body);
-  //         expect(res.body.message).toBe('User deleted');
-  //       })
+  describe('delete user', () => {
+    it('delete user', async () => {
+      await request(server)
+        .delete(`${userURI}/${currUserID}`)
+        .then(res => {
+          expect(res.body.message).toBe('User deleted');
+        })
 
-  //   });
-  // });
+    });
+  });
 });
