@@ -1,4 +1,5 @@
 const request = require('supertest');
+const bcrypt = require('bcryptjs');
 
 const server = require('../server.js'); // Routes
 const db = require('../database/dbConfig.js'); // DB
@@ -33,24 +34,25 @@ describe('user routes', () => {
     });
   });
 
-  // POST
-  // describe('insert lender book', () => {
-  //   it('add book to DB', async () => {
-  //     await request(server)
-  //       .post(`${baseURI}/`)
-  //       .send({
-  //         google_book_id: 1591984,
-  //         lender_id: 1,
-  //         isbn: 6265581337
-  //       })
-  //       .then(res => {
-  //         currBookID = res.body[0].id;
+  // PUT
+  describe('update user info', () => {
+    it('change password', async () => {
+      await request(server)
+        .put(`${authURI}/${currUserID}`)
+        .send({
+          user_credential: "newPassword"
+        })
+        .then(async res => {
+          const hashPass = await db('users').where('id', currUserID);
 
-  //         expect(res.status).toBe(201);
-  //         expect(res.body).toHaveLength(1);
-  //       });
-  //   });
-  // });
+          const newPassword = bcrypt.compareSync("newPassword", hashPass.user_credential);
+
+          expect(res.status).toBe(200);
+          expect(newPassword).toBe(true);
+        })
+        .catch(err => console.log(err.body));
+    });
+  });
 
   // DELETE
   describe('delete user', () => {
