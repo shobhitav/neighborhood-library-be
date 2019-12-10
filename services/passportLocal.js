@@ -4,10 +4,10 @@ const db = require('../database/dbConfig.js');
 const bcrypt = require('bcryptjs');
  
 //takes user object from login or reg and sets user id to session
-passport.serializeUser((user, done) => {
-  console.log('serialize fired! local-8', user);
-  done(null, user.id);
-});
+// passport.serializeUser((user, done) => {
+//   console.log('serialize fired! local-8', user);
+//   done(null, user.id);
+// });
 
 //takes the user creds from serializeuser and makes a request to our database and calls done with the user info.  Passport then
 //stores the user info on req.user, and we now have access to the user profile    
