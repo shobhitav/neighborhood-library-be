@@ -24,7 +24,7 @@ function protectedRoute(req, res, next) {
 }
 
 server.use(helmet());
-server.use(cors({credentials: true, origin: 'http://localhost:3000/'}));
+server.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 server.use(express.json());
 server.use(flash());
 server.use(
