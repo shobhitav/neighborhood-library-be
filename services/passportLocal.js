@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
  
 //takes user object from login or reg and sets user id to session
 passport.serializeUser((user, done) => {
-  console.log('serialize fired!', user);
+  console.log('serialize fired! local-8', user);
   done(null, user.id);
 });
 

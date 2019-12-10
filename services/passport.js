@@ -9,7 +9,7 @@ require('./passportLocal.js');
 //takes the user from the done call in the passport.use callback, and sets the session to rember them  by the second parameter in done
 //passport stores the user[0].user_credential on req.passport
 passport.serializeUser((user, done) => {
-    console.log(user);
+    console.log('serialize fired! pass-12', user);
     done(null, user[0].id);
 });
 
