@@ -9,19 +9,20 @@ require('./passportLocal.js');
 //takes the user from the done call in the passport.use callback, and sets the session to rember them  by the second parameter in done
 //passport stores the user[0].user_credential on req.passport
 passport.serializeUser((user, done) => {
-    
+    console.log('serialize fired! pass-12', user);
     done(null, user[0].id);
 });
 
 //takes the user creds from serializeuser and makes a request to our database and calls done with the user info.  Passport then
 //stores the user info on req.user, and we now have access to the user profile
 passport.deserializeUser( async (id, done) => {  
-    const User = await db('users').where({user_credential: id})
+    const User = await db('users').where({user_credential: id});
     
     if (User) {
-        done(null, User)
+        done(null, User);
+    } else {
+        console.log('passport.js line 24');
     }
-    
 });
 
 //the following implements googleStrategy for auth, and in the callback holds the logic to register new users, 
@@ -32,24 +33,21 @@ passport.use(
         clientSecret: process.env.googleClientSecret,
         callbackURL: '/auth/google/callback',
         proxy: true
-    }, async (accessToken, refreshToken, profile, done) => {
-        console.log(profile);
-   
-        let user = await db('users').where({user_credential: profile.id})
+    }, async (accessToken, refreshToken, profile, done) => {   
+        let user = await db('users').where({user_credential: profile.id});
     
         if (user.length > 0) {
             console.log('user:',user);
             return done(null, user);
         };
      
-        let newUser = await addNewUser(profile)
+        let newUser = await addNewUser(profile);
       
         done(null, newUser);
 }));
 
 async function addNewUser(p) {
-    console.log('email', p.emails[0].value)
-    let newUser =  await db('users').insert({first_name: p.name.givenName, last_name: p.name.familyName, user_name: p.emails[0].value, user_email: p.emails[0].value, user_identity: 'google', user_credential: p.id});
-    console.log(newUser)      
+    let newUser = await db('users').insert({user_name: p.emails[0].value, user_email: p.emails[0].value, user_identity: 'google', user_credential: p.id});
+    // first_name: p.name.givenName, last_name: p.name.familyName,
     return newUser
 }

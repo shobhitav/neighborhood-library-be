@@ -1,6 +1,5 @@
 exports.up = function(knex) {
-return (
-        knex
+    return knex
         .schema
         .createTable('users', users => {
             users.increments(); //Id
@@ -53,8 +52,7 @@ return (
             tbl.string('isbn',128).notNullable();
             tbl.timestamp('borrow_time').defaultTo(knex.fn.now()).notNullable();
             tbl.timestamp('return_time'); //nullable - will be updated when lender makes book available again
-        })
-    )
+        });
 };
 
 exports.down = function(knex) {

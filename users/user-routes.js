@@ -25,41 +25,35 @@ router.get('/:id', async (req, res) => {
 });
 
 // Create user
-router.post('/', async (req, res) => {
-  const user = req.body;
+// router.post('/', async (req, res) => {
+//   const user = req.body;
 
-  console.log(user);
+//   console.log(user);
 
-  if(user.user_identity === undefined) {
-    user.user_identity = 'muoVivlio';
-  }
+//   if(user.user_identity === undefined) {
+//     user.user_identity = 'muoVivlio';
+//   }
 
-  try {
-    if (user.user_name && user.user_email && user.user_identity && user.user_credential) {
-      const addUser = await User.addUser(user);
+//   try {
+//     if (user.user_name && user.user_email && user.user_identity && user.user_credential) {
+//       const addUser = await User.addUser(user);
   
-      if (addUser) {
-        res.status(201).json({
-          message: "User created"
-        });
-      }
-    } else {
-      res.status(400).json({
-        message: 'All required fields not found.'
-      });
-    } 
-  } catch (err) {
-    /* if (err.detail.search('already exists')) {
-      res.status(500).json({
-        message: 'Username or Email address already exists'
-      })
-    } else { */
-      res.status(500).json({
-        error: err
-      });
-   // }
-  }
-});
+//       if (addUser) {
+//         res.status(201).json({
+//           message: "User created"
+//         });
+//       }
+//     } else {
+//       res.status(400).json({
+//         message: 'All required fields not found.'
+//       });
+//     } 
+//   } catch (err) {
+//     res.status(500).json({
+//       error: err.detail
+//     });
+//   }
+// });
 
 // Update user
 router.put('/:id', async (req, res) => {

@@ -27,8 +27,7 @@ router.get('/logout', (req, res) => {
 
 // returns current user info
 router.get('/current_user', (req, res) => {
-    
-    res.send(req.user);
+    res.status(200).json(req.user);
 });
 
 /////localStrategy Routes///////////////////////////////////////////////////////////
@@ -39,16 +38,23 @@ router.get('/current_user', (req, res) => {
 
 //login user and send to dashboard when successful or login if not
 router.post('/login', passport.authenticate('local.login', {failureRedirect: '/login'}), (req, res) => {
+    console.log('login auth returned');
     //res.redirect('/dashboard');
-    res.send('<h1> success!</h1>');
-})
+    res.status(200).json({
+        loginSuccess: true
+    });
+});
 
 //register users and send to dashboard or back to form based on sucess
 router.post('/register', passport.authenticate('local.register', {
-    successRedirect : '/dashboard', 
-    failureRedirect : '/register', 
+//     successRedirect : '/login', 
+//     failureRedirect : '/register', 
     failureFlash : true 
-}));
+}), (req, res) => {
+    res.status(201).json({
+        registerSuccess: true
+    });
+});
 
 
 

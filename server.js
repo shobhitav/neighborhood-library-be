@@ -4,6 +4,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
+const flash = require('connect-flash');
 
 const lenderRouter= require('./lender/lenderCollection-router.js');
 const borrowerRouter= require('./borrower/borrowerWishlist-router.js');
@@ -13,21 +14,31 @@ const transactionRouter=require('./transaction/transaction-router.js')
 
 //middleware to all routers to ensure they are protected. DO NOT USE ON AUTHROUTER.  Was added to borrowerRouter, and lenderRouter.
 function protectedRoute(req, res, next) {
-  if (req.isAuthenticated()) { return next(null); }
-  res.redirect('/login')
+  if (process.env.ENV === 'test') {
+    next();
+  } else if (req.isAuthenticated()) {
+    return next(null);
+  } else {
+    res.redirect('/login');
+  }
 }
 
 server.use(helmet());
-server.use(cors());
+server.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 server.use(express.json());
+server.use(flash());
 server.use(
   cookieSession({
       maxAge: 30 * 24 * 60 * 60 * 1000,
-      keys: [process.env.cookieKey],
+      keys: [process.env.cookieKey]
   })
 );
 server.use(passport.initialize());
 server.use(passport.session());
+server.use(function(req, res, next){
+  console.log(`${req.method}`);
+  next();
+});
 
 server.use('/auth', authRouter);
 

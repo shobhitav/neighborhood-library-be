@@ -4,10 +4,10 @@ const db = require('../database/dbConfig.js');
 const bcrypt = require('bcryptjs');
  
 //takes user object from login or reg and sets user id to session
-passport.serializeUser((user, done) => {
-    //console.log(user)
-  done(null, user.id);
-});
+// passport.serializeUser((user, done) => {
+//   console.log('serialize fired! local-8', user);
+//   done(null, user.id);
+// });
 
 //takes the user creds from serializeuser and makes a request to our database and calls done with the user info.  Passport then
 //stores the user info on req.user, and we now have access to the user profile    
@@ -38,10 +38,14 @@ passport.use('local.login', new LocalStrategy({
   async function(req, username, password, done) {
     const user = await db('users').where({user_name: username});
       
-      if (!user) { return done(null, false, req.flash('loginMessage', 'incorrect username')); }
-      if (!user.verifyPassword(password)) { return done(null, false, req.flash('loginMessage', 'incorrect password')); }
+    if (!user) {
+      return done(null, false, req.flash('loginMessage', 'incorrect username'));
+    } else if (bcrypt.compare(password, user[0].user_credential)) {
       return done(null, user);
-    ;
+    } else {
+      return done(null, false, req.flash('loginMessage', 'incorrect password'));
+    }
+
   }
 ));
 
@@ -53,27 +57,36 @@ passport.use('local.register', new LocalStrategy({
   passReqToCallback: true,
 },
  async function(req, username, password, done) {
+  console.log('registering user');
+
     const user = await db('users').where({user_name: username}); 
       
       
-      if (user.length > 0) { return done(null, false, req.flash('registerMessage', 'username is already taken')); }
-      else {
-        const { first_name, last_name, user_email } = req.body;
-        const hash = bcrypt.hashSync(password, 10);
-        const cred = hash;
-        const newUser = db('users').insert({first_name: first_name, last_name: last_name, user_name: username, user_email: user_email, user_identity: 'muoVivlio', user_credential: cred});
-        //911//911//911
-        //right here the code begins to break because I am not wired to postgres properly the following log will show what gets passed to passport.serializeUser().  the user is not defined for some reaon it is passing the knex insert object, and should fix when wired in to db, and if not, then we will need to debug further
-        console.log(newUser)
-        return done(null, newUser);  
-      }
+    if (user.length > 0) {
+      console.log('username taken');
+      return done(null, false, req.flash('registerMessage', 'username is already taken'));
+    } else {
+      const { first_name, last_name, user_email } = req.body;
+      const hash = bcrypt.hashSync(password, 10);
+      const cred = hash;
+      const newUser = await db('users').insert(
+        {user_name: username, user_email, user_identity: 'muoVivlio', user_credential: cred})
+        .then(async () => {
+          console.log('returning new user');
+          return await db('users').where({user_name: username});
+        })
+        .catch(err => {
+          console.log(err.detail, 'passportLocal-70');
+        });
+        
+      return done(null, newUser);  
+    }
     
   }
 ));
 
 
 
-//see how to go into verify callback after db users call
 
 
   
