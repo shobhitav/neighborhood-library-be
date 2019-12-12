@@ -27,8 +27,7 @@ router.get('/logout', (req, res) => {
 
 // returns current user info
 router.get('/current_user', (req, res) => {
-    
-    res.send(req.user);
+    res.status(200).json(req.user);
 });
 
 /////localStrategy Routes///////////////////////////////////////////////////////////
