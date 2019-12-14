@@ -29,13 +29,17 @@ router.post('/', async (req, res) => {
       bookIDs.push(book.google_book_id);
     });
 
+    console.log(bookIDs.find(el => {
+      return el === lenderBookData.google_book_id
+    }));
+
     const findBook = () => {
       return bookIDs.find(el => {
         return el === lenderBookData.google_book_id
       })
     }
 
-    if (findBook) {
+    if (findBook()) {
       // if book is already added
       res.status(400).json({
         message: 'Duplicate book, please try again'
