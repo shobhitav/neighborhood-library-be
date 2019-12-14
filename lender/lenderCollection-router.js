@@ -31,7 +31,13 @@ router.post('/', async (req, res) => {
     });
     console.log(bookIDs);
 
-    if (bookIDs.find(lenderBookData.google_book_id)) {
+    const findBook = () => {
+      return bookIDs.find(el => {
+        return el === lenderBookData.google_book_id
+      })
+    }
+
+    if (findBook) {
       console.log('book already added');
       // if book is already added
       res.status(400).json({
