@@ -24,7 +24,7 @@ function protectedRoute(req, res, next) {
 }
 
 // Multi-Origin for CORS
-const whitelist = ['https://neighborhood-library-labspt5.netlify.com', 'http://localhost:3000']
+const whitelist = ['https://neighborhood-library-labspt5.netlify.com', 'https://staging--neighborhood-library-labspt5.netlify.com', 'http://localhost:3000']
 const corsOptions = (req, callback) => {
   console.log(req.headers);
 
