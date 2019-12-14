@@ -24,8 +24,9 @@ router.post('/', async (req, res) => {
     const bookList = await lenderCollectionModel.findBooksByLenderId(req.body.lender_id);
 
     // sorts out google book ID
-    const bookIDs = bookList.map(book => {
-      return book.google_book_id
+    const bookIDs = [];
+    bookList.forEach(book => {
+      bookIDs.push(book.google_book_id);
     });
 
     if (bookIDs.find(lenderBookData.google_book_id)) {

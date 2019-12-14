@@ -24,8 +24,9 @@ router.post('/', async (req, res) => {
     const bookList = await borrowerWishlistModel.findBooksByBorrowerId(req.body.borrower_id);
 
     // sorts out google book ID
-    const bookIDs = bookList.map(book => {
-      return book.google_book_id
+    const bookIDs = [];
+    bookList.forEach(book => {
+      bookIDs.push(book.google_book_id);
     });
 
     if (bookIDs.find(borrowerBookData.google_book_id)) {
