@@ -32,7 +32,7 @@ const corsOptions = (req, callback) => {
   if (whitelist.indexOf(req.header('Origin')) !== -1) {
     corsOptions = { 'Access-Control-Allow-Origin': req.header('Origin'), credentials: true }
   } else {
-    corsOptions = { 'Access-Control-Allow-Origin': false, credentials: true } // disable CORS for this request
+    corsOptions = { 'Access-Control-Allow-Origin': false, credentials: false } // disable CORS for this request
   }
   callback(null, corsOptions) // callback expects two parameters: error and options
 }
