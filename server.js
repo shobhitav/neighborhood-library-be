@@ -34,6 +34,9 @@ const corsOptions = (req, callback) => {
   } else {
     corsOptions = { 'Access-Control-Allow-Origin': false, credentials: false } // disable CORS for this request
   }
+
+  console.log(corsOptions);
+
   callback(null, corsOptions) // callback expects two parameters: error and options
 }
 
