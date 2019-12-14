@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
 
   try {
     // gets all user books
-    const bookList = await lenderCollectionModel.findBooksByLenderId(req.body.borrower_id);
+    const bookList = await lenderCollectionModel.findBooksByLenderId(req.body.lender_id);
     console.log(bookList);
 
     // sorts out google book ID
