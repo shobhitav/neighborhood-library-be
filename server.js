@@ -23,23 +23,6 @@ function protectedRoute(req, res, next) {
   }
 }
 
-// Multi-Origin for CORS
-// const whitelist = ['https://neighborhood-library-labspt5.netlify.com', 'https://staging--neighborhood-library-labspt5.netlify.com', 'http://localhost:3000']
-// const corsOptions = (req, callback) => {
-//   console.log(req.headers);
-
-//   var corsOptions;
-//   if (whitelist.indexOf(req.header('Origin')) !== -1) {
-//     corsOptions = { 'Access-Control-Allow-Origin': req.header('Origin'), credentials: true }
-//   } else {
-//     corsOptions = { 'Access-Control-Allow-Origin': false, credentials: false } // disable CORS for this request
-//   }
-
-//   console.log(corsOptions);
-
-//   callback(null, corsOptions) // callback expects two parameters: error and options
-// }
-
 server.use(helmet());
 server.use(cors(process.env.ENV === 'test' ? { origin: 'http://localhost:3000', credentials: true } : { origin: 'https://staging--neighborhood-library-labspt5.netlify.com', credentials: true }));
 server.use(express.json());
