@@ -36,6 +36,7 @@ router.post('/', async (req, res) => {
     } else {
       const lenderCollectionData = await lenderCollectionModel.addBook(lenderBookData);
       res.status(201).json(lenderCollectionData );
+    }
   } catch (err) {
     res.status(500).json({ message: 'Failed to add book to collection:' + err });
   }
