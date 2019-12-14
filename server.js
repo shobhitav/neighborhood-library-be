@@ -27,12 +27,12 @@ function protectedRoute(req, res, next) {
 const whitelist = ['https://neighborhood-library-labspt5.netlify.com', 'http://localhost:3000']
 const corsOptions = (req, callback) => {
   console.log(req.headers);
-  
+
   var corsOptions;
   if (whitelist.indexOf(req.header('Origin')) !== -1) {
-    corsOptions = { origin: req.header('Origin'), credentials: true }
+    corsOptions = { 'Access-Control-Allow-Origin': req.header('Origin'), credentials: true }
   } else {
-    corsOptions = { origin: false, credentials: true } // disable CORS for this request
+    corsOptions = { 'Access-Control-Allow-Origin': false, credentials: true } // disable CORS for this request
   }
   callback(null, corsOptions) // callback expects two parameters: error and options
 }
