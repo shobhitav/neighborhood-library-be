@@ -30,13 +30,13 @@ router.post('/', async (req, res) => {
 
     if (bookIDs.find(lenderBookData.google_book_id)) {
       // if book is already added
-      res.status(406).json({
+      res.status(500).json({
         message: 'Duplicate book, please try again'
       })
     } else {
       console.log('adding book to db');
       const lenderCollectionData = await lenderCollectionModel.addBook(lenderBookData);
-      
+
       res.status(201).json(lenderCollectionData );
     }
   } catch (err) {
