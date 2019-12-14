@@ -13,21 +13,21 @@ router.get('/google', passport.authenticate('google', {
 router.get('/google/callback', passport.authenticate('google'),
     
     (req, res) => {
-        console.log(req.headers.cookie) 
-        res.redirect('/dashboard')
+        console.log(req.headers.cookie) ;
+        res.redirect('/dashboard');
     }
 );
 
 // logs user out and removes req.user property and session
 router.get('/logout', (req, res) => {
     req.logout();
-    console.log(req.headers.cookie)
+    console.log(req.headers.cookie);
     res.redirect('/');
 });
 
 // returns current user info
 router.get('/current_user', (req, res) => {
-    console.log(req.user, res.body)
+    console.log(req.user);
     res.status(200).json({user: req.user});
 });
 
