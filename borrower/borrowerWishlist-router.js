@@ -20,8 +20,24 @@ router.post('/', async (req, res) => {
   const borrowerBookData = req.body;
 
   try {
-    const borrowerWishlistData = await borrowerWishlistModel.addBook(borrowerBookData);
-    res.status(201).json(borrowerWishlistData);
+    // gets all user books
+    const bookList = await borrowerWishlistModel.findBooksByBorrowerId(req.body.borrower_id);
+
+    // sorts out google book ID
+    const bookIDs = bookList.map(book => {
+      return book.google_book_id
+    });
+
+    if (bookIDs.find(borrowerBookData.google_book_id)) {
+      // if book is already added
+      res.status(409).json({
+        message: 'Duplicate book, please try again'
+      })
+    } else {
+      const borrowerWishlistData = await borrowerWishlistModel.addBook(borrowerBookData);
+
+      res.status(201).json(borrowerWishlistData);
+    }
   } catch (err) {
     res.status(500).json({ message: 'Failed to add book to wishlist:' + err });
   }

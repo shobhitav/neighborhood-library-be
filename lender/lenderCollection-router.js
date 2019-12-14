@@ -20,8 +20,22 @@ router.post('/', async (req, res) => {
   const lenderBookData = req.body;
 
   try {
-    const lenderCollectionData = await lenderCollectionModel.addBook(lenderBookData);
-    res.status(201).json(lenderCollectionData );
+    // gets all user books
+    const bookList = await lenderCollectionModel.findBooksByLenderId(req.body.borrower_id);
+
+    // sorts out google book ID
+    const bookIDs = bookList.map(book => {
+      return book.google_book_id
+    });
+
+    if (bookIDs.find(lenderBookData.google_book_id)) {
+      // if book is already added
+      res.status(409).json({
+        message: 'Duplicate book, please try again'
+      })
+    } else {
+      const lenderCollectionData = await lenderCollectionModel.addBook(lenderBookData);
+      res.status(201).json(lenderCollectionData );
   } catch (err) {
     res.status(500).json({ message: 'Failed to add book to collection:' + err });
   }

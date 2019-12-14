@@ -23,8 +23,20 @@ function protectedRoute(req, res, next) {
   }
 }
 
+// Multi-Origin for CORS
+const whitelist = ['https://neighborhood-library-labspt5.netlify.com', 'http://localhost:3000']
+const corsOptions = (req, callback) => {
+  var corsOptions;
+  if (whitelist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: req.header('Origin'), credentials: true }
+  } else {
+    corsOptions = { origin: false, credentials: true } // disable CORS for this request
+  }
+  callback(null, corsOptions) // callback expects two parameters: error and options
+}
+
 server.use(helmet());
-server.use(cors({credentials: true, origin: 'http://localhost:3000'}));
+server.use(cors(corsOptions));
 server.use(express.json());
 server.use(flash());
 server.use(
