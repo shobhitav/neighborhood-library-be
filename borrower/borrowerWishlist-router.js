@@ -22,18 +22,21 @@ router.post('/', async (req, res) => {
   try {
     // gets all user books
     const bookList = await borrowerWishlistModel.findBooksByBorrowerId(req.body.borrower_id);
-    console.log(bookList);
 
     // sorts out google book ID
     const bookIDs = [];
     bookList.forEach(book => {
       bookIDs.push(book.google_book_id);
     });
-    console.log(bookIDs);
+    
+    const findBook = () => {
+      return bookIDs.find(el => {
+        return el === borrowerBookData.google_book_id
+      })
+    }
 
-    if (bookIDs.find(borrowerBookData.google_book_id)) {
+    if (findBook) {
       // if book is already added
-      console.log('book already added');
       res.status(500).json({
         message: 'Duplicate book, please try again'
       });
