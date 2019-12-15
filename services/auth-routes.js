@@ -41,7 +41,7 @@ router.get('/current_user', (req, res) => {
 //set the res.redirect when the dashboard is ready and linked in heroku in login
 
 //login user and send to dashboard when successful or login if not
-router.post('/login', passport.authenticate('local.login', {failureRedirect: '/login'}), (req, res) => {
+router.post('/login', passport.authenticate('local.login'), (req, res) => {
     console.log('login auth returned');
     //res.redirect('/dashboard');
     res.status(200).json({

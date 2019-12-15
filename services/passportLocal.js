@@ -37,9 +37,12 @@ passport.use('local.login', new LocalStrategy({
 },
   async function(req, username, password, done) {
     const user = await db('users').where({user_name: username});
+
+    console.log(user);
       
-    if (!user) {
-      return done(null, false, req.flash('loginMessage', 'incorrect username'));
+    if (user.length <= 0) {
+      return done(null, false);
+      // , req.flash('loginMessage', 'incorrect username')
     } else if (bcrypt.compare(password, user[0].user_credential)) {
       return done(null, user);
     } else {
