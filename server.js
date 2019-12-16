@@ -24,7 +24,7 @@ function protectedRoute(req, res, next) {
 }
 
 server.use(helmet());
-server.use(cors({ origin: 'https://staging--neighborhood-library-labspt5.netlify.com', credentials: true }));
+server.use(cors({ origin: process.env.REQ_URL, credentials: true }));
 server.use(express.json());
 server.use(flash());
 server.use(
