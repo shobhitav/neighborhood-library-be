@@ -19,6 +19,8 @@ router.get('/google/callback', passport.authenticate('google'),
 
 // logs user out and removes req.user property and session
 router.get('/logout', (req, res) => {
+    console.log(req.headers);
+
     req.logout();
     console.log(req.headers.cookie);
     res.redirect(`${req.headers['origin']}/`);
