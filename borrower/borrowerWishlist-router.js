@@ -22,7 +22,6 @@ router.post('/', async (req, res) => {
   try {
     // gets all user books
     const bookList = await borrowerWishlistModel.findBooksByBorrowerId(req.body.borrower_id);
-
     // sorts out google book ID
     const bookIDs = [];
     bookList.forEach(book => {
@@ -35,7 +34,7 @@ router.post('/', async (req, res) => {
       })
     }
 
-    if (findBook) {
+    if (findBook()) {
       // if book is already added
       res.status(500).json({
         message: 'Duplicate book, please try again'
