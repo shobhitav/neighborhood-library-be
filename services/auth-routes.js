@@ -26,7 +26,7 @@ router.get('/logout', (req, res) => {
     const newHeader = req.headers['referer'].replace('m/', 'm/}');
     const editNewHead = newHeader.split('}')[0];
 
-    res.redirect(`${editNewHead}/`);
+    res.redirect(editNewHead);
 });
 
 // returns current user info
