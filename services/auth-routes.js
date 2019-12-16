@@ -21,7 +21,7 @@ router.get('/google/callback', passport.authenticate('google'),
 router.get('/logout', (req, res) => {
     req.logout();
     console.log(req.headers.cookie);
-    res.redirect('/');
+    res.redirect(`${req.headers['origin']}/`);
 });
 
 // returns current user info
