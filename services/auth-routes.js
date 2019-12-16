@@ -44,7 +44,6 @@ router.get('/current_user', (req, res) => {
 //login user and send to dashboard when successful or login if not
 router.post('/login', passport.authenticate('local.login'), (req, res) => {
     console.log('login auth returned');
-    res.redirect('/dashboard');
     res.status(200).json({
         loginSuccess: true
     });
