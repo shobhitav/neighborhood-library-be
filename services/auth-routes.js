@@ -11,24 +11,33 @@ router.get('/google', passport.authenticate('google', {
 
 // gets user info back after log in
 router.get('/google/callback', passport.authenticate('google'),
-    
     (req, res) => {
-        console.log(req.headers.cookie) 
-        res.redirect('/dashboard')
+        console.log(req.headers.cookie) ;
+        res.redirect('/dashboard');
     }
 );
 
 // logs user out and removes req.user property and session
 router.get('/logout', (req, res) => {
+
     req.logout();
-    console.log(req.headers.cookie)
-    res.redirect('/');
+    console.log(req.headers.cookie);
+
+    const newHeader = req.headers['referer'].replace('m/', 'm/}');
+    const editNewHead = newHeader.split('}')[0];
+
+    res.redirect(editNewHead);
 });
 
 // returns current user info
 router.get('/current_user', (req, res) => {
-    console.log(req.user, res.body)
-    res.status(200).json({user: req.user});
+    console.log(req.headers.cookie);
+    if (req.user) {
+        console.log(req.user[0].user_name + 'logged in');
+        res.status(200).json({user: req.user});
+    } else {
+        res.status(500).json({message: 'Bad user'});
+    }
 });
 
 /////localStrategy Routes///////////////////////////////////////////////////////////
@@ -38,9 +47,8 @@ router.get('/current_user', (req, res) => {
 //set the res.redirect when the dashboard is ready and linked in heroku in login
 
 //login user and send to dashboard when successful or login if not
-router.post('/login', passport.authenticate('local.login', {failureRedirect: '/login'}), (req, res) => {
+router.post('/login', passport.authenticate('local.login'), (req, res) => {
     console.log('login auth returned');
-    //res.redirect('/dashboard');
     res.status(200).json({
         loginSuccess: true
     });
