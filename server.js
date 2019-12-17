@@ -14,9 +14,7 @@ const transactionRouter=require('./transaction/transaction-router.js')
 
 //middleware to all routers to ensure they are protected. DO NOT USE ON AUTHROUTER.  Was added to borrowerRouter, and lenderRouter.
 function protectedRoute(req, res, next) {
-  if (process.env.ENV === 'test') {
-    next();
-  } else if (req.isAuthenticated()) {
+  if (req.isAuthenticated()) {
     return next(null);
   } else {
     res.redirect('/login');
@@ -36,7 +34,7 @@ server.use(
 server.use(passport.initialize());
 server.use(passport.session());
 server.use(function(req, res, next){
-  console.log(`${req.method}`);
+  console.log(`${req.method} from ${req.headers['referer']}`);
   next();
 });
 

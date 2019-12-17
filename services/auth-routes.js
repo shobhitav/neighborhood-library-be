@@ -21,12 +21,15 @@ router.get('/google/callback', passport.authenticate('google'),
 router.get('/logout', (req, res) => {
 
     req.logout();
-    console.log(req.headers.cookie);
+    res.clearCookie('express:sess', {path:'/'});
+    res.clearCookie('express:sess.sig', {path:'/'});
+    console.log('logout cookies', req.headers.cookie);
 
-    const newHeader = req.headers['referer'].replace('m/', 'm/}');
+    const newHeader = req.headers['referer'].replace('0/', '0/}');
     const editNewHead = newHeader.split('}')[0];
+    console.log('ref URL', editNewHead);
 
-    res.redirect(editNewHead);
+    res.status(200).redirect(editNewHead);
 });
 
 // returns current user info
