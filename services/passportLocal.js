@@ -9,7 +9,7 @@ passport.deserializeUser( async (id, done) => {
   const User = await db('users').where({id: id});
   
   if (User) {
-      done(null, User)
+    done(null, User)
   }
 });
 
@@ -32,7 +32,7 @@ passport.use('local.login', new LocalStrategy({
 
     console.log('local-login', user);
       
-    if (!user) {
+    if (user.length <= 0) {
       return done(null, false);
       // , req.flash('loginMessage', 'incorrect username')
     } else if (bcrypt.compare(password, user[0].user_credential)) {
