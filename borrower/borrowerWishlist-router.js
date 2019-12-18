@@ -34,11 +34,7 @@ router.post('/', async (req, res) => {
       })
     }
 
-<<<<<<< HEAD
     if (findBook() !== undefined) {
-=======
-    if (findBook()) {
->>>>>>> 464dd2da2e87040d878b301cbb252744a4cd8537
       // if book is already added
       res.status(500).json({
         message: 'Duplicate book, please try again'
