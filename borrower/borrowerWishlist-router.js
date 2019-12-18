@@ -35,8 +35,6 @@ router.post('/', async (req, res) => {
       })
     }
 
-    console.log(findBook());
-
     if (findBook() !== undefined) {
       // if book is already added
       res.status(500).json({
