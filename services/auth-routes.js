@@ -19,17 +19,8 @@ router.get('/google/callback', passport.authenticate('google'),
 
 // logs user out and removes req.user property and session
 router.get('/logout', (req, res) => {
-
     req.logout();
-    res.clearCookie('express:sess', {path:'/'});
-    res.clearCookie('express:sess.sig', {path:'/'});
-    console.log('logout cookies', req.headers.cookie);
-
-    const newHeader = req.headers['referer'].replace('0/', '0/}');
-    const editNewHead = newHeader.split('}')[0];
-    console.log('ref URL', editNewHead);
-
-    res.status(200).redirect(editNewHead);
+    res.redirect('/');
 });
 
 // returns current user info
@@ -39,7 +30,7 @@ router.get('/current_user', (req, res) => {
         console.log(req.user[0].user_name + 'logged in');
         res.status(200).json({user: req.user});
     } else {
-        res.status(500).json({message: 'Bad user'});
+        res.status(404).json({message: 'Bad user'});
     }
 });
 
@@ -51,7 +42,6 @@ router.get('/current_user', (req, res) => {
 
 //login user and send to dashboard when successful or login if not
 router.post('/login', passport.authenticate('local.login'), (req, res) => {
-    console.log('login auth returned');
     res.status(200).json({
         loginSuccess: true
     });

@@ -27,6 +27,7 @@ passport.deserializeUser( async (id, done) => {
         done(null, User);
     } else {
         console.log('passport.js line 27');
+        done(null, null);
     }
 });
 

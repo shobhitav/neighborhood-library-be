@@ -9,7 +9,7 @@ passport.deserializeUser( async (id, done) => {
   const User = await db('users').where({id: id});
   
   if (User) {
-      done(null, User)
+    done(null, User)
   }
 });
 
