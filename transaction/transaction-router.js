@@ -17,7 +17,7 @@ router.post('/', async (req, res) => {
           await lenderCollectionModel.toggleAvailability(bookFound);
         } else {
           res.status(404).json({ message: `Could not find available book for lender id ${transactionData.lender_id}` });
-        }
+        } 
     
         [bookFound] = await borrowerWishlistModel.findBookByBorrowerIdAndGoogleBookId(transactionData.borrower_id, transactionData.google_book_id, true);
 

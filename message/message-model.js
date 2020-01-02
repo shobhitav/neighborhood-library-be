@@ -1,0 +1,25 @@
+const db=require('../database/dbConfig.js');
+ 
+ module.exports={
+    findMessageById,
+    findMessagesByBookId,
+    addMessage
+}
+
+// Find message by message Id (primary key)
+async function findMessageById(id){
+    return db('messages').where({ id });
+}
+
+// Find messages by google book id
+async function findMessagesByBookId(google_book_id){
+    return db('messages').where({google_book_id: google_book_id});
+}
+
+// Create a message
+async function addMessage(message){
+    const [id] = await db('messages').insert(message).returning('id');
+    return findMessageById(id);
+}
+
+
