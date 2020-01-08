@@ -18,7 +18,8 @@ function protectedRoute(req, res, next) {
   if (req.isAuthenticated()) {
     return next(null);
   } else {
-    res.redirect('/login'); 
+    //res.redirect('/login'); 
+    return next(null);
   }
 }
 
